@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classes - Ashtanga Yoga Studio</title>
+    <meta name="description"
+        content="Explore our variety of yoga classes including Vinyasa, Ashtanga, Hatha, and more. Find the perfect class for your level and schedule.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="classes-style.css">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="main-container">
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <div class="logo-circle">AJ</div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">HOME</a></li>
+                    <li><a href="about.html">ABOUT</a></li>
+                    <li><a href="classes.html" class="active">CLASSES</a></li>
+                    <li><a href="blog.html">BLOG</a></li>
+                    <li><a href="contact.html">CONTACT US</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <a href="contact.html#contact-form" class="book-btn">BOOK CLASS</a>
+                <div class="menu-icon" id="mobile-menu-toggle">
+                    <i class="fa-solid fa-bars"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- Mobile Menu Overlay -->
+        <div class="mobile-menu-overlay" id="mobile-menu">
+            <div class="mobile-menu-content">
+                <div class="mobile-menu-header">
+                    <div class="logo-circle">AJ</div>
+                    <button class="mobile-menu-close" id="mobile-menu-close">
+                        <i class="fa-solid fa-times"></i>
+                    </button>
+                </div>
+                <nav class="mobile-nav">
+                    <ul>
+                        <li><a href="index.html" class="mobile-nav-link">HOME</a></li>
+                        <li><a href="about.html" class="mobile-nav-link">ABOUT</a></li>
+                        <li><a href="classes.html" class="mobile-nav-link">CLASSES</a></li>
+                        <li><a href="blog.html" class="mobile-nav-link">BLOG</a></li>
+                        <li><a href="contact.html" class="mobile-nav-link">CONTACT US</a></li>
+                    </ul>
+                </nav>
+                <div class="mobile-menu-footer">
+                    <a href="contact.html#contact-form" class="mobile-book-btn">BOOK CLASS</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Classes Hero Section -->
+        <section class="classes-hero">
+            <div class="classes-hero-content">
+                <h1>FIND YOUR<br><span class="highlight">FLOW</span></h1>
+                <p class="subtitle">DISCOVER OUR CLASSES</p>
+                <!-- <div class="floral-decoration-left">
+                    <img src="floral.png" alt="Floral Decoration">
+                </div> -->
+            </div>
+            <div class="classes-hero-text">
+                <p class="intro-text">We offer a diverse range of classes suitable for all levels, from beginners to
+                    advanced practitioners. Whether you seek the dynamic energy of Vinyasa or the grounding stillness of
+                    Yin, you'll find your sanctuary here.</p>
+            </div>
+        </section>
+
+        <!-- Classes Grid Section -->
+        <section class="classes-list">
+            <div class="class-card">
+                <div class="class-image">
+                    <img src="hero.png" alt="Vinyasa Flow">
+                    <div class="class-level">All Levels</div>
+                </div>
+                <div class="class-info">
+                    <h3>VINYASA FLOW</h3>
+                    <div class="class-meta">
+                        <span><i class="fa-regular fa-clock"></i> 60 min</span>
+                        <span><i class="fa-solid fa-fire"></i> High Heat</span>
+                    </div>
+                    <p>A dynamic practice synchronizing breath with movement. Build strength, flexibility, and
+                        mindfulness through fluid sequences.</p>
+                    <a href="#" class="book-class-btn">BOOK NOW</a>
+                </div>
+            </div>
+
+            <div class="class-card">
+                <div class="class-image">
+                    <img src="seated.png" alt="Ashtanga Yoga">
+                    <div class="class-level">Intermediate</div>
+                </div>
+                <div class="class-info">
+                    <h3>ASHTANGA</h3>
+                    <div class="class-meta">
+                        <span><i class="fa-regular fa-clock"></i> 90 min</span>
+                        <span><i class="fa-solid fa-fire"></i> Medium Heat</span>
+                    </div>
+                    <p>A traditional, structured practice following a specific sequence of postures. Focuses on
+                        discipline, stamina, and purification.</p>
+                    <a href="#" class="book-class-btn">BOOK NOW</a>
+                </div>
+            </div>
+
+            <div class="class-card">
+                <div class="class-image">
+                    <img src="nature.png" alt="Hatha Yoga">
+                    <div class="class-level">Beginner Friendly</div>
+                </div>
+                <div class="class-info">
+                    <h3>HATHA YOGA</h3>
+                    <div class="class-meta">
+                        <span><i class="fa-regular fa-clock"></i> 60 min</span>
+                        <span><i class="fa-solid fa-temperature-empty"></i> Normal Temp</span>
+                    </div>
+                    <p>A gentle introduction to basic yoga postures. Focuses on alignment and breathing techniques to
+                        balance body and mind.</p>
+                    <a href="#" class="book-class-btn">BOOK NOW</a>
+                </div>
+            </div>
+
+            <div class="class-card">
+                <div class="class-image">
+                    <img src="instructor.png" alt="Yin Yoga">
+                    <div class="class-level">All Levels</div>
+                </div>
+                <div class="class-info">
+                    <h3>YIN YOGA</h3>
+                    <div class="class-meta">
+                        <span><i class="fa-regular fa-clock"></i> 75 min</span>
+                        <span><i class="fa-solid fa-temperature-empty"></i> Normal Temp</span>
+                    </div>
+                    <p>A slow-paced style where poses are held for longer periods. Targets deep connective tissues and
+                        promotes relaxation.</p>
+                    <a href="#" class="book-class-btn">BOOK NOW</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Schedule Preview (Simplified) -->
+        <section id="schedule" class="schedule-preview">
+            <h2 class="section-title">WEEKLY SCHEDULE</h2>
+            <div class="schedule-container">
+                <div class="schedule-day">
+                    <h4>TODAY</h4>
+                    <ul class="day-classes">
+                        <li>
+                            <span class="time">07:00 AM</span>
+                            <span class="name">Morning Vinyasa</span>
+                            <span class="instructor">with Emilly</span>
+                        </li>
+                        <li>
+                            <span class="time">09:00 AM</span>
+                            <span class="name">Hatha Basics</span>
+                            <span class="instructor">with Michael</span>
+                        </li>
+                        <li>
+                            <span class="time">06:00 PM</span>
+                            <span class="name">Ashtanga Series</span>
+                            <span class="instructor">with Sarah</span>
+                        </li>
+                    </ul>
+                    <a href="#" class="view-full-schedule">VIEW FULL CALENDAR <i
+                            class="fa-solid fa-arrow-right-long"></i></a>
+                </div>
+            </div>
+            <div class="floral-decoration-right">
+                <img src="floral.png" alt="Floral Decoration">
+            </div>
+        </section>
+
+        <!-- Pricing Section -->
+        <section class="pricing-section">
+            <h2 class="section-title">MEMBERSHIP OPTIONS</h2>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3>DROP-IN</h3>
+                    <div class="price">$25</div>
+                    <p class="period">per class</p>
+                    <ul class="features">
+                        <li>Access to any single class</li>
+                        <li>Mat rental included</li>
+                        <li>Valid for 7 days</li>
+                    </ul>
+                    <a href="#" class="pricing-btn">PURCHASE</a>
+                </div>
+                <div class="pricing-card featured">
+                    <h3>UNLIMITED</h3>
+                    <div class="price">$150</div>
+                    <p class="period">per month</p>
+                    <ul class="features">
+                        <li>Unlimited class access</li>
+                        <li>Free workshops</li>
+                        <li>10% off retail</li>
+                        <li>Guest passes (2/mo)</li>
+                    </ul>
+                    <a href="#" class="pricing-btn primary">JOIN NOW</a>
+                </div>
+                <div class="pricing-card">
+                    <h3>10 CLASS PACK</h3>
+                    <div class="price">$220</div>
+                    <p class="period">no expiry</p>
+                    <ul class="features">
+                        <li>Shareable with friends</li>
+                        <li>Valid for all classes</li>
+                        <li>Online booking priority</li>
+                    </ul>
+                    <a href="#" class="pricing-btn">PURCHASE</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="about-footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="logo-circle">A</div>
+                    <p>Ashtanga Yoga Studio</p>
+                </div>
+                <div class="footer-section">
+                    <h4>CONTACT</h4>
+                    <p>123 Wellness Street<br>Your City, ST 12345<br>contact@ashtangastudio.com</p>
+                </div>
+                <div class="footer-section">
+                    <h4>HOURS</h4>
+                    <p>Monday - Friday: 6am - 9pm<br>Saturday - Sunday: 8am - 6pm</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuClose = document.getElementById('mobile-menu-close');
+        const body = document.body;
+
+        if (mobileMenuToggle) {
+            mobileMenuToggle.addEventListener('click', () => {
+                mobileMenu.classList.add('active');
+                body.classList.add('menu-open');
+            });
+        }
+
+        if (mobileMenuClose) {
+            mobileMenuClose.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                body.classList.remove('menu-open');
+            });
+        }
+
+        // Close menu when clicking on overlay (outside menu content)
+        if (mobileMenu) {
+            mobileMenu.addEventListener('click', (e) => {
+                if (e.target === mobileMenu) {
+                    mobileMenu.classList.remove('active');
+                    body.classList.remove('menu-open');
+                }
+            });
+        }
+
+        // Close menu when clicking on a nav link
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                body.classList.remove('menu-open');
+            });
+        });
+
+        // Set active state for current page
+        const currentPath = window.location.pathname;
+        const currentPage = currentPath.split('/').pop() || 'index.html';
+        mobileNavLinks.forEach(link => {
+            const linkHref = link.getAttribute('href');
+            if (linkHref === currentPage || (currentPage === '' && linkHref === 'index.html')) {
+                link.classList.add('active');
+            }
+        });
+    </script>
+
+</body>
+
+</html>

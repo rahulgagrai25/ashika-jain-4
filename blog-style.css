@@ -1,0 +1,233 @@
+/* Blog Page Styles */
+
+/* Blog Hero */
+.blog-hero {
+    text-align: center;
+    padding: 60px 0 100px;
+    position: relative;
+}
+
+.blog-title {
+    font-family: var(--font-serif);
+    font-size: 4.5rem;
+    font-weight: 400;
+    color: var(--primary-text);
+    margin-bottom: 20px;
+    letter-spacing: -1px;
+    line-height: 1;
+}
+
+.blog-title .highlight {
+    font-style: italic;
+    color: var(--secondary-text);
+}
+
+.blog-subtitle {
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    color: var(--secondary-text);
+    text-transform: uppercase;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Blog Grid */
+.blog-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    margin-bottom: 120px;
+    padding: 0 20px;
+}
+
+.blog-card {
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease;
+}
+
+.blog-card:hover {
+    transform: translateY(-10px);
+}
+
+.card-image {
+    position: relative;
+    height: 300px;
+    overflow: hidden;
+    margin-bottom: 25px;
+    border-radius: 4px;
+}
+
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.blog-card:hover .card-image img {
+    transform: scale(1.05);
+}
+
+.category-tag {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 8px 16px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: var(--primary-text);
+    text-transform: uppercase;
+}
+
+.card-content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.card-content .date {
+    font-size: 0.7rem;
+    color: #999;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+    font-weight: 500;
+}
+
+.card-content h3 {
+    font-family: var(--font-serif);
+    font-size: 1.8rem;
+    font-weight: 500;
+    margin-bottom: 15px;
+    line-height: 1.2;
+    color: var(--primary-text);
+}
+
+.card-content p {
+    font-size: 0.9rem;
+    color: var(--secondary-text);
+    margin-bottom: 25px;
+    line-height: 1.6;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.read-more {
+    margin-top: auto;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: var(--primary-text);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: gap 0.3s ease;
+}
+
+.read-more:hover {
+    gap: 15px;
+}
+
+/* Newsletter Section */
+.newsletter {
+    background-color: #f9f9f9;
+    padding: 80px 40px;
+    text-align: center;
+    margin-bottom: 80px;
+    border-radius: 8px;
+}
+
+.newsletter h2 {
+    font-family: var(--font-serif);
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    font-weight: 400;
+    color: var(--primary-text);
+}
+
+.newsletter p {
+    color: var(--secondary-text);
+    margin-bottom: 40px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.newsletter-form {
+    display: flex;
+    max-width: 500px;
+    margin: 0 auto;
+    border-bottom: 1px solid #ccc;
+}
+
+.newsletter-form input {
+    flex-grow: 1;
+    border: none;
+    background: transparent;
+    padding: 15px 0;
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    color: var(--primary-text);
+}
+
+.newsletter-form input:focus {
+    outline: none;
+}
+
+.newsletter-form button {
+    background: transparent;
+    border: none;
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: var(--primary-text);
+    cursor: pointer;
+    padding: 0 20px;
+    transition: opacity 0.3s ease;
+}
+
+.newsletter-form button:hover {
+    opacity: 0.7;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+    .blog-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .blog-title {
+        font-size: 3rem;
+    }
+
+    .blog-grid {
+        grid-template-columns: 1fr;
+        gap: 60px;
+    }
+
+    .newsletter-form {
+        flex-direction: column;
+        border-bottom: none;
+        gap: 20px;
+    }
+
+    .newsletter-form input {
+        border-bottom: 1px solid #ccc;
+        text-align: center;
+    }
+
+    .newsletter-form button {
+        background: var(--primary-text);
+        color: #fff;
+        padding: 15px;
+        border-radius: 4px;
+    }
+}

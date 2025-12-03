@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ashtanga Yoga Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+        <div class="preloader-content">
+            <img src="images/ylogo.png" alt="Logo" class="preloader-logo">
+        </div>
+    </div>
+
+    <div class="main-container">
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <div class="logo-circle">AJ</div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html" class="active">HOME</a></li>
+                    <li><a href="about.html">ABOUT</a></li>
+                    <li><a href="classes.html">CLASSES</a></li>
+                    <li><a href="blog.html">BLOG</a></li>
+                    <li><a href="contact.html">CONTACT US</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <a href="contact.html#contact-form" class="book-btn">BOOK CLASS</a>
+                <div class="menu-icon" id="mobile-menu-toggle">
+                    <i class="fa-solid fa-bars"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- Mobile Menu Overlay -->
+        <div class="mobile-menu-overlay" id="mobile-menu">
+            <div class="mobile-menu-content">
+                <div class="mobile-menu-header">
+                    <div class="logo-circle">AJ</div>
+                    <button class="mobile-menu-close" id="mobile-menu-close">
+                        <i class="fa-solid fa-times"></i>
+                    </button>
+                </div>
+                <nav class="mobile-nav">
+                    <ul>
+                        <li><a href="index.html" class="mobile-nav-link">HOME</a></li>
+                        <li><a href="about.html" class="mobile-nav-link">ABOUT</a></li>
+                        <li><a href="classes.html" class="mobile-nav-link">CLASSES</a></li>
+                        <li><a href="blog.html" class="mobile-nav-link">BLOG</a></li>
+                        <li><a href="contact.html" class="mobile-nav-link">CONTACT US</a></li>
+                    </ul>
+                </nav>
+                <div class="mobile-menu-footer">
+                    <a href="contact.html#contact-form" class="mobile-book-btn">BOOK CLASS</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <div class="hero-text-slider">
+                    <div class="hero-slide active">
+                        <h1>YOGA STUDIO<br><span class="highlight">ASHTANGA</span></h1>
+                        <p class="subtitle">BY ASHIKA JAIN</p>
+                        <p class="category-text">Mindful movement, breath, and stillness</p>
+                    </div>
+                    <div class="hero-slide">
+                        <h1>DANCE<br><span class="highlight">THERAPY</span></h1>
+                        <p class="subtitle">BY ASHIKA JAIN</p>
+                        <p class="category-text">Expressive movement that frees energy</p>
+                    </div>
+                    <div class="hero-slide">
+                        <h1>EFT<br><span class="highlight">TAPPING</span></h1>
+                        <p class="subtitle">BY ASHIKA JAIN</p>
+                        <p class="category-text">Release stress and restore balance</p>
+                    </div>
+                    <div class="hero-slide">
+                        <h1>SOUND<br><span class="highlight">HEALING</span></h1>
+                        <p class="subtitle">BY ASHIKA JAIN</p>
+                        <p class="category-text">Vibrational frequencies for inner harmony</p>
+                    </div>
+                </div>
+
+                <div class="floral-decoration-left">
+                    <img src="floral.png" alt="Floral Decoration">
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="hero-image-slider">
+                    <div class="hero-image-slide active">
+                        <img src="images/yogaf.png" alt="Yoga">
+                    </div>
+                    <div class="hero-image-slide">
+                        <img src="images/dancef.png" alt="Dance">
+                    </div>
+                    <div class="hero-image-slide">
+                        <img src="images/eftf.png" alt="EFT Tapping">
+                    </div>
+                    <div class="hero-image-slide">
+                        <img src="images/soundf.png" alt="Sound Healing">
+                    </div>
+                </div>
+                <div class="hero-indicators">
+                    <span class="indicator active" data-slide="0"></span>
+                    <span class="indicator" data-slide="1"></span>
+                    <span class="indicator" data-slide="2"></span>
+                    <span class="indicator" data-slide="3"></span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features">
+            <div class="feature-item">
+                <div class="icon"><i class="fa-solid fa-spa"></i></div>
+                <h3>YOGA</h3>
+                <p>Mindful movement, breath, and stillness to strengthen the body and calm the mind.</p>
+            </div>
+            <div class="feature-item">
+                <div class="icon"><i class="fa-solid fa-infinity"></i></div>
+                <h3>DANCE</h3>
+                <p>Expressive movement that frees energy, uplifts the spirit, and reconnects you with joy.</p>
+            </div>
+            <div class="feature-item">
+                <div class="icon"><i class="fa-solid fa-om"></i></div>
+                <h3>EFT (TAPPING)</h3>
+                <p>A gentle technique using acupressure points to release stress, shift emotions, and restore balance.</p>
+            </div>
+            <div class="feature-item">
+                <div class="icon"><i class="fa-solid fa-leaf"></i></div>
+                <h3>SOUND HEALING</h3>
+                <p>Vibrational frequencies and soothing tones that support deep relaxation and inner harmony.</p>
+            </div>
+        </section>
+
+        <!-- Instructor Section -->
+        <section class="instructor">
+            <div class="instructor-image-wrapper">
+                <img src="images/yogaf.png" alt="Emilly Burton" class="instructor-img">
+            </div>
+            <div class="instructor-content">
+                <h2>ASHIKA JAIN</h2>
+                <span class="role">Wellness Coach</span>
+                <p>A certified Yoga Instructor, Dance Therapist, EFT Practitioner, and Sound Healer. I believe in a
+                    holistic approach to well-being, integrating various modalities to help individuals find balance and
+                    inner peace.</p>
+
+                <div class="socials">
+                    <a href="https://www.facebook.com/ashikajain.yn/"><i class="fa-brands fa-facebook-f"></i></a>
+                    <!-- <a href="#"><i class="fa-brands fa-twitter"></i></a> -->
+                    <a href="https://www.instagram.com/ashikajain.yn/"><i class="fa-brands fa-instagram"></i></a>
+                </div>
+
+                <a href="about.html" class="view-team">VIEW MORE <i class="fa-solid fa-arrow-right-long"></i></a>
+            </div>
+            <div class="floral-decoration-right">
+                <img src="floral.png" alt="Floral Decoration">
+            </div>
+        </section>
+
+        <!-- Gallery Heading Section -->
+        <section class="gallery-intro">
+            <div class="gallery-intro-content">
+                <h2 class="gallery-intro-heading">OUR GALLERY</h2>
+                <p class="gallery-intro-text">Explore moments of tranquility, strength, and connection captured in our practice space.</p>
+            </div>
+        </section>
+
+        <!-- Gallery/Bottom Section -->
+        <section class="gallery-grid">
+            <div class="gallery-item nature-texture">
+                <img src="images/gallery/g2.png" alt="Nature Texture">
+                <div class="overlay">
+                    <span>CONNECT</span>
+                </div>
+            </div>
+            <div class="gallery-item seated-pose">
+                <img src="images/eftf.png" alt="Seated Yoga Pose">
+                <div class="overlay">
+                    <span>BALANCE</span>
+                </div>
+            </div>
+            <div class="gallery-item hero-pose">
+                <img src="images/soundf.png" alt="Yoga Hero Pose">
+                <div class="overlay">
+                    <span>STRENGTH</span>
+                </div>
+            </div>
+            <div class="gallery-item instructor-pose">
+                <img src="images/gallery/g1.png" alt="Instructor Pose">
+                <div class="overlay">
+                    <span>GUIDANCE</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Bottom Content Section -->
+        <section class="gallery-content">
+            <div class="gallery-content-wrapper">
+                <h2 class="gallery-heading">EMBRACE YOUR JOURNEY</h2>
+                <p class="gallery-text">At our yoga studio, we believe in the transformative power of practice. Each pose, each breath, and each moment of mindfulness brings you closer to inner peace and physical strength. Our gallery reflects the essence of our community—connection, balance, strength, and guidance.</p>
+                <p class="gallery-subtext">Join us on the mat and discover the harmony between body, mind, and spirit.</p>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="about-footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="logo-circle">AJ</div>
+                    <p>Ashika Jain Yoga Studio</p>
+                </div>
+                <div class="footer-section">
+                    <h4>CONTACT</h4>
+                    <p>123 Wellness Street<br>Your City, ST 12345<br>contact@ashtangastudio.com</p>
+                </div>
+                <div class="footer-section">
+                    <h4>HOURS</h4>
+                    <p>Monday - Friday: 6am - 9pm<br>Saturday - Sunday: 8am - 6pm</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuClose = document.getElementById('mobile-menu-close');
+        const body = document.body;
+
+        if (mobileMenuToggle) {
+            mobileMenuToggle.addEventListener('click', () => {
+                mobileMenu.classList.add('active');
+                body.classList.add('menu-open');
+            });
+        }
+
+        if (mobileMenuClose) {
+            mobileMenuClose.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                body.classList.remove('menu-open');
+            });
+        }
+
+        // Close menu when clicking on overlay (outside menu content)
+        if (mobileMenu) {
+            mobileMenu.addEventListener('click', (e) => {
+                if (e.target === mobileMenu) {
+                    mobileMenu.classList.remove('active');
+                    body.classList.remove('menu-open');
+                }
+            });
+        }
+
+        // Close menu when clicking on a nav link
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                body.classList.remove('menu-open');
+            });
+        });
+
+        // Set active state for current page
+        const currentPath = window.location.pathname;
+        const currentPage = currentPath.split('/').pop() || 'index.html';
+        mobileNavLinks.forEach(link => {
+            const linkHref = link.getAttribute('href');
+            if (linkHref === currentPage || (currentPage === '' && linkHref === 'index.html')) {
+                link.classList.add('active');
+            }
+        });
+
+        // Hero Carousel Auto-Change
+        let currentSlide = 0;
+        const totalSlides = 4;
+        const slideInterval = 5000; // 5 seconds for better viewing experience
+
+        const heroTextSlides = document.querySelectorAll('.hero-slide');
+        const heroImageSlides = document.querySelectorAll('.hero-image-slide');
+        const indicators = document.querySelectorAll('.indicator');
+
+        function showSlide(index) {
+            // Remove active class from all slides
+            heroTextSlides.forEach(slide => slide.classList.remove('active'));
+            heroImageSlides.forEach(slide => slide.classList.remove('active'));
+            indicators.forEach(indicator => indicator.classList.remove('active'));
+
+            // Add active class to current slide (synchronized)
+            heroTextSlides[index].classList.add('active');
+            heroImageSlides[index].classList.add('active');
+            indicators[index].classList.add('active');
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            showSlide(currentSlide);
+        }
+
+        // Initialize first slide
+        showSlide(0);
+
+        // Auto-advance slides
+        let slideTimer = setInterval(nextSlide, slideInterval);
+
+        // Indicator click handlers
+        indicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', () => {
+                currentSlide = index;
+                showSlide(currentSlide);
+                // Reset timer
+                clearInterval(slideTimer);
+                slideTimer = setInterval(nextSlide, slideInterval);
+            });
+        });
+
+        // Pause on hover
+        const heroSection = document.querySelector('.hero');
+        let isPaused = false;
+
+        heroSection.addEventListener('mouseenter', () => {
+            if (!isPaused) {
+                clearInterval(slideTimer);
+                isPaused = true;
+            }
+        });
+
+        heroSection.addEventListener('mouseleave', () => {
+            if (isPaused) {
+                slideTimer = setInterval(nextSlide, slideInterval);
+                isPaused = false;
+            }
+        });
+
+        // Preloader - Show for 3 seconds
+        const preloader = document.getElementById('preloader');
+        
+        // Add preloader-active class to body on page load
+        body.classList.add('preloader-active');
+        
+        // Hide preloader after 3 seconds
+        setTimeout(() => {
+            if (preloader) {
+                preloader.style.opacity = '0';
+                body.classList.remove('preloader-active');
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                }, 500);
+            }
+        }, 3000);
+    </script>
+
+</body>
+
+</html>

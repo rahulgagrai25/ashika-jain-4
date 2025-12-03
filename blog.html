@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - Ashtanga Yoga Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="blog-style.css">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="main-container">
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <div class="logo-circle">AJ</div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">HOME</a></li>
+                    <li><a href="about.html">ABOUT</a></li>
+                    <li><a href="classes.html">CLASSES</a></li>
+                    <li><a href="blog.html" class="active">BLOG</a></li>
+                    <li><a href="contact.html">CONTACT US</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <a href="contact.html#contact-form" class="book-btn">BOOK CLASS</a>
+                <div class="menu-icon" id="mobile-menu-toggle">
+                    <i class="fa-solid fa-bars"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- Mobile Menu Overlay -->
+        <div class="mobile-menu-overlay" id="mobile-menu">
+            <div class="mobile-menu-content">
+                <div class="mobile-menu-header">
+                    <div class="logo-circle">AJ</div>
+                    <button class="mobile-menu-close" id="mobile-menu-close">
+                        <i class="fa-solid fa-times"></i>
+                    </button>
+                </div>
+                <nav class="mobile-nav">
+                    <ul>
+                        <li><a href="index.html" class="mobile-nav-link">HOME</a></li>
+                        <li><a href="about.html" class="mobile-nav-link">ABOUT</a></li>
+                        <li><a href="classes.html" class="mobile-nav-link">CLASSES</a></li>
+                        <li><a href="blog.html" class="mobile-nav-link">BLOG</a></li>
+                        <li><a href="contact.html" class="mobile-nav-link">CONTACT US</a></li>
+                    </ul>
+                </nav>
+                <div class="mobile-menu-footer">
+                    <a href="contact.html#contact-form" class="mobile-book-btn">BOOK CLASS</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Blog Hero -->
+        <section class="blog-hero">
+            <h1 class="blog-title">OUR <span class="highlight">JOURNAL</span></h1>
+            <p class="blog-subtitle">INSIGHTS ON YOGA, WELLNESS, AND MINDFUL LIVING</p>
+        </section>
+
+        <!-- Blog Grid -->
+        <section class="blog-grid">
+            <!-- Blog Post 1 -->
+            <article class="blog-card">
+                <div class="card-image">
+                    <img src="nature.png" alt="Mindfulness in Nature">
+                    <div class="category-tag">MINDFULNESS</div>
+                </div>
+                <div class="card-content">
+                    <span class="date">OCTOBER 12, 2023</span>
+                    <h3>Finding Peace in Nature</h3>
+                    <p>Discover how connecting with the natural world can deepen your yoga practice and bring
+                        tranquility to your mind.</p>
+                    <a href="#" class="read-more">READ ARTICLE <i class="fa-solid fa-arrow-right-long"></i></a>
+                </div>
+            </article>
+
+            <!-- Blog Post 2 -->
+            <article class="blog-card">
+                <div class="card-image">
+                    <img src="seated.png" alt="Yoga for Beginners">
+                    <div class="category-tag">PRACTICE</div>
+                </div>
+                <div class="card-content">
+                    <span class="date">OCTOBER 08, 2023</span>
+                    <h3>Yoga for Beginners</h3>
+                    <p>Starting your journey? Here are the essential poses and breathing techniques to build a strong
+                        foundation.</p>
+                    <a href="#" class="read-more">READ ARTICLE <i class="fa-solid fa-arrow-right-long"></i></a>
+                </div>
+            </article>
+
+            <!-- Blog Post 3 -->
+            <article class="blog-card">
+                <div class="card-image">
+                    <img src="hero.png" alt="The Art of Breathing">
+                    <div class="category-tag">BREATHWORK</div>
+                </div>
+                <div class="card-content">
+                    <span class="date">SEPTEMBER 25, 2023</span>
+                    <h3>The Art of Breathing</h3>
+                    <p>Pranayama is more than just breathing. Learn how to control your life force through conscious
+                        breath control.</p>
+                    <a href="#" class="read-more">READ ARTICLE <i class="fa-solid fa-arrow-right-long"></i></a>
+                </div>
+            </article>
+
+            <!-- Blog Post 4 -->
+            <article class="blog-card">
+                <div class="card-image">
+                    <img src="instructor.png" alt="Meet Our Instructors">
+                    <div class="category-tag">COMMUNITY</div>
+                </div>
+                <div class="card-content">
+                    <span class="date">SEPTEMBER 15, 2023</span>
+                    <h3>Community Spotlight</h3>
+                    <p>Meet the dedicated instructors who guide our community towards better health and spiritual
+                        growth.</p>
+                    <a href="#" class="read-more">READ ARTICLE <i class="fa-solid fa-arrow-right-long"></i></a>
+                </div>
+            </article>
+
+            <!-- Blog Post 5 -->
+            <article class="blog-card">
+                <div class="card-image">
+                    <img src="nature.png" alt="Healthy Eating">
+                    <div class="category-tag">NUTRITION</div>
+                </div>
+                <div class="card-content">
+                    <span class="date">SEPTEMBER 01, 2023</span>
+                    <h3>Nourish Your Body</h3>
+                    <p>Explore plant-based recipes that fuel your practice and keep you feeling energized throughout the
+                        day.</p>
+                    <a href="#" class="read-more">READ ARTICLE <i class="fa-solid fa-arrow-right-long"></i></a>
+                </div>
+            </article>
+
+            <!-- Blog Post 6 -->
+            <article class="blog-card">
+                <div class="card-image">
+                    <img src="seated.png" alt="Meditation Basics">
+                    <div class="category-tag">MEDITATION</div>
+                </div>
+                <div class="card-content">
+                    <span class="date">AUGUST 20, 2023</span>
+                    <h3>Meditation 101</h3>
+                    <p>Simple techniques to quiet the mind and establish a daily meditation habit that sticks.</p>
+                    <a href="#" class="read-more">READ ARTICLE <i class="fa-solid fa-arrow-right-long"></i></a>
+                </div>
+            </article>
+        </section>
+
+        <!-- Newsletter / Footer Area -->
+        <section class="newsletter">
+            <div class="newsletter-content">
+                <h2>SUBSCRIBE TO OUR NEWSLETTER</h2>
+                <p>Get the latest updates, articles, and class schedules delivered to your inbox.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Enter your email address">
+                    <button type="submit">SUBSCRIBE</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="about-footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="logo-circle">A</div>
+                    <p>Ashtanga Yoga Studio</p>
+                </div>
+                <div class="footer-section">
+                    <h4>CONTACT</h4>
+                    <p>123 Wellness Street<br>Your City, ST 12345<br>contact@ashtangastudio.com</p>
+                </div>
+                <div class="footer-section">
+                    <h4>HOURS</h4>
+                    <p>Monday - Friday: 6am - 9pm<br>Saturday - Sunday: 8am - 6pm</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuClose = document.getElementById('mobile-menu-close');
+        const body = document.body;
+
+        if (mobileMenuToggle) {
+            mobileMenuToggle.addEventListener('click', () => {
+                mobileMenu.classList.add('active');
+                body.classList.add('menu-open');
+            });
+        }
+
+        if (mobileMenuClose) {
+            mobileMenuClose.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                body.classList.remove('menu-open');
+            });
+        }
+
+        // Close menu when clicking on overlay (outside menu content)
+        if (mobileMenu) {
+            mobileMenu.addEventListener('click', (e) => {
+                if (e.target === mobileMenu) {
+                    mobileMenu.classList.remove('active');
+                    body.classList.remove('menu-open');
+                }
+            });
+        }
+
+        // Close menu when clicking on a nav link
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                body.classList.remove('menu-open');
+            });
+        });
+
+        // Set active state for current page
+        const currentPath = window.location.pathname;
+        const currentPage = currentPath.split('/').pop() || 'index.html';
+        mobileNavLinks.forEach(link => {
+            const linkHref = link.getAttribute('href');
+            if (linkHref === currentPage || (currentPage === '' && linkHref === 'index.html')) {
+                link.classList.add('active');
+            }
+        });
+    </script>
+
+</body>
+
+</html>

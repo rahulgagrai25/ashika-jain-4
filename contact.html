@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Ashtanga Yoga Studio</title>
+    <meta name="description"
+        content="Get in touch with Ashtanga Yoga Studio. Book a class, ask questions, or visit us at our location. We're here to help you on your yoga journey.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="contact-style.css">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="main-container">
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <div class="logo-circle">AJ</div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">HOME</a></li>
+                    <li><a href="about.html">ABOUT</a></li>
+                    <li><a href="classes.html">CLASSES</a></li>
+                    <li><a href="blog.html">BLOG</a></li>
+                    <li><a href="contact.html" class="active">CONTACT US</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <a href="contact.html#contact-form" class="book-btn">BOOK CLASS</a>
+                <div class="menu-icon" id="mobile-menu-toggle">
+                    <i class="fa-solid fa-bars"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- Mobile Menu Overlay -->
+        <div class="mobile-menu-overlay" id="mobile-menu">
+            <div class="mobile-menu-content">
+                <div class="mobile-menu-header">
+                    <div class="logo-circle">AJ</div>
+                    <button class="mobile-menu-close" id="mobile-menu-close">
+                        <i class="fa-solid fa-times"></i>
+                    </button>
+                </div>
+                <nav class="mobile-nav">
+                    <ul>
+                        <li><a href="index.html" class="mobile-nav-link">HOME</a></li>
+                        <li><a href="about.html" class="mobile-nav-link">ABOUT</a></li>
+                        <li><a href="classes.html" class="mobile-nav-link">CLASSES</a></li>
+                        <li><a href="blog.html" class="mobile-nav-link">BLOG</a></li>
+                        <li><a href="contact.html" class="mobile-nav-link">CONTACT US</a></li>
+                    </ul>
+                </nav>
+                <div class="mobile-menu-footer">
+                    <a href="contact.html#contact-form" class="mobile-book-btn">BOOK CLASS</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Hero Section -->
+        <section class="contact-hero">
+            <div class="contact-hero-content">
+                <h1>GET IN<br><span class="highlight">TOUCH</span></h1>
+                <p class="subtitle">WE'D LOVE TO HEAR FROM YOU</p>
+                <!-- <div class="floral-decoration-left">
+                    <img src="floral.png" alt="Floral Decoration">
+                </div> -->
+            </div>
+            <div class="contact-hero-text">
+                <p class="intro-text">Whether you're interested in joining a class, have questions about our programs,
+                    or
+                    simply want to learn more about our studio, we're here to help. Reach out to us and begin your
+                    journey to wellness.</p>
+            </div>
+        </section>
+
+        <!-- Contact Info Cards -->
+        <section class="contact-info-section">
+            <div class="contact-info-grid">
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </div>
+                    <h3>VISIT US</h3>
+                    <p>123 Wellness Street<br>Your City, ST 12345<br>United States</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fa-solid fa-phone"></i>
+                    </div>
+                    <h3>CALL US</h3>
+                    <p>+1 (555) 123-4567<br>Mon-Fri: 6am - 9pm<br>Sat-Sun: 8am - 6pm</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fa-solid fa-envelope"></i>
+                    </div>
+                    <h3>EMAIL US</h3>
+                    <p>contact@ashtangastudio.com<br>info@ashtangastudio.com<br>support@ashtangastudio.com</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
+                    <h3>STUDIO HOURS</h3>
+                    <p>Monday - Friday: 6am - 9pm<br>Saturday - Sunday: 8am - 6pm<br>Holidays: Closed</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Form & Map Section -->
+        <section id="contact-form" class="contact-form-section">
+            <div class="form-container">
+                <h2>SEND US A MESSAGE</h2>
+                <p class="form-description">Fill out the form below and we'll get back to you within 24 hours.</p>
+
+                <form id="contactForm" class="contact-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">First Name *</label>
+                            <input type="text" id="firstName" name="firstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Last Name *</label>
+                            <input type="text" id="lastName" name="lastName" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject">Subject *</label>
+                        <select id="subject" name="subject" required>
+                            <option value="">Select a subject</option>
+                            <option value="class-inquiry">Class Inquiry</option>
+                            <option value="membership">Membership Information</option>
+                            <option value="private-session">Private Session Request</option>
+                            <option value="workshop">Workshop Information</option>
+                            <option value="feedback">Feedback</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Message *</label>
+                        <textarea id="message" name="message" rows="6" required></textarea>
+                    </div>
+
+                    <div class="form-group checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="newsletter" name="newsletter">
+                            <span>Subscribe to our newsletter for updates and special offers</span>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="submit-btn">
+                        SEND MESSAGE
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+
+                    <div class="form-message" id="formMessage"></div>
+                </form>
+            </div>
+
+            <div class="map-container">
+                <h2>FIND US</h2>
+                <div class="map-placeholder">
+                    <div class="map-overlay">
+                        <i class="fa-solid fa-map-location-dot"></i>
+                        <p>123 Wellness Street<br>Your City, ST 12345</p>
+                        <a href="https://maps.google.com" target="_blank" class="directions-btn">
+                            GET DIRECTIONS
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faq-section">
+            <h2 class="section-title">FREQUENTLY ASKED QUESTIONS</h2>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Do I need to book classes in advance?</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes, we recommend booking classes in advance to secure your spot. You can book online through
+                            our website or by calling us directly. Walk-ins are welcome based on availability.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>What should I bring to my first class?</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Bring a yoga mat, water bottle, and wear comfortable clothing. We provide props like blocks
+                            and straps. First-time students should arrive 10-15 minutes early to complete registration.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Do you offer trial classes?</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes! We offer a special introductory package for new students. Contact us to learn more about
+                            our trial class options and current promotions.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>What is your cancellation policy?</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>We require at least 12 hours notice for class cancellations. Late cancellations or no-shows
+                            may result in a fee. Please contact us as soon as possible if you need to cancel.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Are private sessions available?</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Absolutely! We offer private and semi-private sessions tailored to your specific needs and
+                            goals. Contact us to schedule a consultation with one of our instructors.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Social Media Section -->
+        <section class="social-section">
+            <h2 class="section-title">CONNECT WITH US</h2>
+            <p class="social-description">Follow us on social media for daily inspiration, class updates, and wellness
+                tips</p>
+            <div class="social-links">
+                <a href="#" class="social-link facebook">
+                    <i class="fa-brands fa-facebook-f"></i>
+                    <span>Facebook</span>
+                </a>
+                <a href="#" class="social-link instagram">
+                    <i class="fa-brands fa-instagram"></i>
+                    <span>Instagram</span>
+                </a>
+                <a href="#" class="social-link twitter">
+                    <i class="fa-brands fa-twitter"></i>
+                    <span>Twitter</span>
+                </a>
+                <a href="#" class="social-link youtube">
+                    <i class="fa-brands fa-youtube"></i>
+                    <span>YouTube</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="about-footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="logo-circle">A</div>
+                    <p>Ashtanga Yoga Studio</p>
+                </div>
+                <div class="footer-section">
+                    <h4>CONTACT</h4>
+                    <p>123 Wellness Street<br>Your City, ST 12345<br>contact@ashtangastudio.com</p>
+                </div>
+                <div class="footer-section">
+                    <h4>HOURS</h4>
+                    <p>Monday - Friday: 6am - 9pm<br>Saturday - Sunday: 8am - 6pm</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const faqItem = button.parentElement;
+                const isActive = faqItem.classList.contains('active');
+
+                // Close all FAQ items
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+
+                // Open clicked item if it wasn't active
+                if (!isActive) {
+                    faqItem.classList.add('active');
+                }
+            });
+        });
+
+        // Contact Form Handling
+        document.getElementById('contactForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const formMessage = document.getElementById('formMessage');
+            const submitBtn = this.querySelector('.submit-btn');
+
+            // Disable submit button
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> SENDING...';
+
+            // Simulate form submission (replace with actual API call)
+            setTimeout(() => {
+                formMessage.className = 'form-message success';
+                formMessage.textContent = 'Thank you! Your message has been sent successfully. We\'ll get back to you soon.';
+
+                // Reset form
+                this.reset();
+
+                // Re-enable submit button
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'SEND MESSAGE <i class="fa-solid fa-paper-plane"></i>';
+
+                // Clear message after 5 seconds
+                setTimeout(() => {
+                    formMessage.className = 'form-message';
+                    formMessage.textContent = '';
+                }, 5000);
+            }, 1500);
+        });
+
+        // Form validation feedback
+        const inputs = document.querySelectorAll('input[required], textarea[required], select[required]');
+        inputs.forEach(input => {
+            input.addEventListener('blur', function () {
+                if (this.value.trim() === '') {
+                    this.classList.add('error');
+                } else {
+                    this.classList.remove('error');
+                }
+            });
+
+            input.addEventListener('input', function () {
+                if (this.value.trim() !== '') {
+                    this.classList.remove('error');
+                }
+            });
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuClose = document.getElementById('mobile-menu-close');
+        const body = document.body;
+
+        if (mobileMenuToggle) {
+            mobileMenuToggle.addEventListener('click', () => {
+                mobileMenu.classList.add('active');
+                body.classList.add('menu-open');
+            });
+        }
+
+        if (mobileMenuClose) {
+            mobileMenuClose.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                body.classList.remove('menu-open');
+            });
+        }
+
+        // Close menu when clicking on overlay (outside menu content)
+        if (mobileMenu) {
+            mobileMenu.addEventListener('click', (e) => {
+                if (e.target === mobileMenu) {
+                    mobileMenu.classList.remove('active');
+                    body.classList.remove('menu-open');
+                }
+            });
+        }
+
+        // Close menu when clicking on a nav link
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                body.classList.remove('menu-open');
+            });
+        });
+
+        // Set active state for current page
+        const currentPath = window.location.pathname;
+        const currentPage = currentPath.split('/').pop() || 'index.html';
+        mobileNavLinks.forEach(link => {
+            const linkHref = link.getAttribute('href');
+            if (linkHref === currentPage || (currentPage === '' && linkHref === 'index.html')) {
+                link.classList.add('active');
+            }
+        });
+    </script>
+
+</body>
+
+</html>
