@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Blog Post - Ashika Jain Yoga Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="admin-style.css">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Configuration -->
+    <script src="config.js"></script>
+</head>
+
+<body>
+    <div class="admin-container">
+        <!-- Admin Header -->
+        <header class="admin-header">
+            <div class="admin-header-content">
+                <div class="admin-logo">
+                    <div class="logo-circle">AJ</div>
+                    <h2>Edit <span class="highlight">Blog Post</span></h2>
+                </div>
+                <div class="admin-header-actions">
+                    <a href="blog.html" class="view-site-btn">
+                        <i class="fa-solid fa-external-link-alt"></i> View Blog
+                    </a>
+                    <a href="admin.html" class="view-site-btn">
+                        <i class="fa-solid fa-dashboard"></i> Admin Dashboard
+                    </a>
+                    <button class="logout-btn" id="logout-btn">
+                        <i class="fa-solid fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <div class="admin-main">
+            <main class="admin-content" style="max-width: 900px; margin: 0 auto;">
+                <!-- Loading state -->
+                <div id="loading-state" class="loading-state">
+                    <i class="fa-solid fa-spinner fa-spin"></i> Loading blog post...
+                </div>
+
+                <!-- Error state -->
+                <div id="error-state" class="error-state" style="display: none;">
+                    <h3>Error Loading Blog Post</h3>
+                    <p id="error-message"></p>
+                    <a href="admin.html" class="btn-secondary">
+                        <i class="fa-solid fa-arrow-left"></i> Back to Dashboard
+                    </a>
+                </div>
+
+                <!-- Edit Form -->
+                <div id="edit-form-container" style="display: none;">
+                    <div class="section-header">
+                        <h1>Edit Blog Post</h1>
+                        <a href="admin.html" class="btn-secondary">
+                            <i class="fa-solid fa-arrow-left"></i> Back to Dashboard
+                        </a>
+                    </div>
+
+                    <form id="blog-edit-form" class="blog-form">
+                        <input type="hidden" id="blog-id" name="id">
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="title">Title *</label>
+                                <input type="text" id="title" name="title" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="category">Category</label>
+                                <div class="category-input-wrapper">
+                                    <select id="category" name="category">
+                                        <option value="">Select or enter custom category</option>
+                                        <option value="GENERAL">GENERAL</option>
+                                        <option value="MINDFULNESS">MINDFULNESS</option>
+                                        <option value="PRACTICE">PRACTICE</option>
+                                        <option value="BREATHWORK">BREATHWORK</option>
+                                        <option value="COMMUNITY">COMMUNITY</option>
+                                        <option value="NUTRITION">NUTRITION</option>
+                                        <option value="MEDITATION">MEDITATION</option>
+                                        <option value="__custom__">+ Add New Category</option>
+                                    </select>
+                                    <input type="text" id="category-custom" name="category-custom" placeholder="Enter custom category" style="display: none; margin-top: 10px;">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="image_upload">Blog Image</label>
+                                <div class="image-upload-wrapper">
+                                    <div class="image-upload-area" id="image-upload-area">
+                                        <input type="file" id="image_upload" name="image_upload" accept="image/*" style="display: none;">
+                                        <div class="upload-placeholder" id="upload-placeholder">
+                                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                                            <p>Click to upload or drag and drop</p>
+                                            <span>PNG, JPG, GIF up to 5MB</span>
+                                        </div>
+                                        <div class="image-preview" id="image-preview" style="display: none;">
+                                            <img id="preview-image" src="" alt="Preview">
+                                            <button type="button" class="remove-image-btn" id="remove-image-btn">
+                                                <i class="fa-solid fa-times"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="image-url-fallback">
+                                        <label for="image_url" style="font-size: 0.7rem; color: var(--secondary-text); margin-top: 10px; display: block;">Or enter image URL:</label>
+                                        <input type="text" id="image_url" name="image_url" placeholder="e.g., https://example.com/image.png" style="margin-top: 5px;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="excerpt">Excerpt</label>
+                            <textarea id="excerpt" name="excerpt" rows="3" placeholder="Short description of the blog post"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="content">Content</label>
+                            <textarea id="content" name="content" rows="15" placeholder="Full blog post content"></textarea>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="slug">Slug (URL-friendly)</label>
+                                <input type="text" id="slug" name="slug" placeholder="e.g., finding-peace-in-nature">
+                            </div>
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="published" name="published">
+                                    <span>Published</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div id="form-error" class="error-message" style="display: none;"></div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn-primary" id="submit-btn">
+                                <i class="fa-solid fa-save"></i> Save Changes
+                            </button>
+                            <button type="button" class="btn-secondary" id="cancel-btn">
+                                Cancel
+                            </button>
+                            <a href="#" id="view-post-btn" class="btn-secondary" target="_blank" style="display: none;">
+                                <i class="fa-solid fa-eye"></i> View Post
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Supabase Configuration
+        const SUPABASE_URL = SUPABASE_CONFIG.url;
+        const SUPABASE_ANON_KEY = SUPABASE_CONFIG.anonKey;
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Get blog ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const blogId = urlParams.get('id');
+
+        // Check authentication
+        supabase.auth.getSession().then(({ data: { session } }) => {
+            if (!session) {
+                window.location.href = 'admin-login.html';
+            } else if (blogId) {
+                loadBlogPost();
+            } else {
+                showError('No blog ID provided');
+            }
+        });
+
+        // Logout functionality
+        document.getElementById('logout-btn').addEventListener('click', async () => {
+            await supabase.auth.signOut();
+            window.location.href = 'admin-login.html';
+        });
+
+        // Load blog post
+        async function loadBlogPost() {
+            if (!blogId) {
+                showError('No blog ID provided');
+                return;
+            }
+
+            const loadingDiv = document.getElementById('loading-state');
+            const errorDiv = document.getElementById('error-state');
+            const formContainer = document.getElementById('edit-form-container');
+
+            try {
+                const { data, error } = await supabase
+                    .from('blogs')
+                    .select('*')
+                    .eq('id', blogId)
+                    .single();
+
+                if (error || !data) {
+                    throw error || new Error('Blog post not found');
+                }
+
+                // Populate form
+                document.getElementById('blog-id').value = data.id;
+                document.getElementById('title').value = data.title || '';
+                
+                // Handle category (check if it's a custom category)
+                const categorySelect = document.getElementById('category');
+                const customCategoryInput = document.getElementById('category-custom');
+                const existingCategory = data.category || 'GENERAL';
+                
+                const categoryOption = Array.from(categorySelect.options).find(opt => opt.value === existingCategory);
+                if (categoryOption) {
+                    categorySelect.value = existingCategory;
+                    customCategoryInput.style.display = 'none';
+                } else {
+                    categorySelect.value = '__custom__';
+                    customCategoryInput.value = existingCategory;
+                    customCategoryInput.style.display = 'block';
+                }
+
+                // Set image preview if image exists
+                const imageUrl = data.image_url || data.image || '';
+                if (imageUrl) {
+                    document.getElementById('image_url').value = imageUrl;
+                    previewImage.src = imageUrl;
+                    uploadPlaceholder.style.display = 'none';
+                    imagePreview.style.display = 'block';
+                    uploadedImageUrl = imageUrl;
+                } else {
+                    uploadPlaceholder.style.display = 'block';
+                    imagePreview.style.display = 'none';
+                    uploadedImageUrl = null;
+                }
+
+                document.getElementById('excerpt').value = data.excerpt || '';
+                document.getElementById('content').value = data.content || '';
+                document.getElementById('slug').value = data.slug || '';
+                document.getElementById('published').checked = data.published !== false;
+
+                // Show view post button
+                const viewPostBtn = document.getElementById('view-post-btn');
+                if (data.published) {
+                    viewPostBtn.href = `blog-detail.html?id=${data.id}`;
+                    viewPostBtn.style.display = 'inline-flex';
+                }
+
+                loadingDiv.style.display = 'none';
+                formContainer.style.display = 'block';
+            } catch (error) {
+                console.error('Error loading blog:', error);
+                loadingDiv.style.display = 'none';
+                showError(error.message || 'Failed to load blog post');
+            }
+        }
+
+        // Show error
+        function showError(message) {
+            const loadingDiv = document.getElementById('loading-state');
+            const errorDiv = document.getElementById('error-state');
+            const errorMessage = document.getElementById('error-message');
+
+            loadingDiv.style.display = 'none';
+            errorMessage.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+
+        // Image Upload Functionality
+        const imageUpload = document.getElementById('image_upload');
+        const imageUploadArea = document.getElementById('image-upload-area');
+        const uploadPlaceholder = document.getElementById('upload-placeholder');
+        const imagePreview = document.getElementById('image-preview');
+        const previewImage = document.getElementById('preview-image');
+        const removeImageBtn = document.getElementById('remove-image-btn');
+        let uploadedImageUrl = null;
+
+        // Click to upload
+        imageUploadArea.addEventListener('click', () => {
+            if (!imagePreview.style.display || imagePreview.style.display === 'none') {
+                imageUpload.click();
+            }
+        });
+
+        // File input change
+        imageUpload.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            if (!file.type.startsWith('image/')) {
+                alert('Please select an image file');
+                return;
+            }
+
+            if (file.size > 5 * 1024 * 1024) {
+                alert('Image size must be less than 5MB');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                previewImage.src = e.target.result;
+                uploadPlaceholder.style.display = 'none';
+                imagePreview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+
+            await uploadImageToSupabase(file);
+        });
+
+        // Drag and drop
+        imageUploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            imageUploadArea.classList.add('drag-over');
+        });
+
+        imageUploadArea.addEventListener('dragleave', () => {
+            imageUploadArea.classList.remove('drag-over');
+        });
+
+        imageUploadArea.addEventListener('drop', async (e) => {
+            e.preventDefault();
+            imageUploadArea.classList.remove('drag-over');
+
+            const file = e.dataTransfer.files[0];
+            if (!file || !file.type.startsWith('image/')) {
+                alert('Please drop an image file');
+                return;
+            }
+
+            if (file.size > 5 * 1024 * 1024) {
+                alert('Image size must be less than 5MB');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                previewImage.src = e.target.result;
+                uploadPlaceholder.style.display = 'none';
+                imagePreview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+
+            await uploadImageToSupabase(file);
+        });
+
+        // Remove image
+        removeImageBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            uploadedImageUrl = null;
+            imageUpload.value = '';
+            imagePreview.style.display = 'none';
+            uploadPlaceholder.style.display = 'block';
+            document.getElementById('image_url').value = '';
+        });
+
+        // Upload image to Supabase Storage
+        async function uploadImageToSupabase(file) {
+            const submitBtn = document.getElementById('submit-btn');
+            const originalText = submitBtn.innerHTML;
+
+            try {
+                submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Uploading image...';
+                submitBtn.disabled = true;
+
+                const fileExt = file.name.split('.').pop();
+                const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 15)}.${fileExt}`;
+                const filePath = `blog-images/${fileName}`;
+
+                const { data, error } = await supabase.storage
+                    .from('blog-images')
+                    .upload(filePath, file, {
+                        cacheControl: '3600',
+                        upsert: false
+                    });
+
+                if (error) throw error;
+
+                const { data: urlData } = supabase.storage
+                    .from('blog-images')
+                    .getPublicUrl(filePath);
+
+                uploadedImageUrl = urlData.publicUrl;
+                document.getElementById('image_url').value = uploadedImageUrl;
+
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            } catch (error) {
+                console.error('Error uploading image:', error);
+                alert('Failed to upload image. Please try again or use image URL instead.');
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        }
+
+        // Handle form submission
+        document.getElementById('blog-edit-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Get category (handle custom category)
+            let category = document.getElementById('category').value;
+            if (category === '__custom__') {
+                const customCategory = document.getElementById('category-custom').value.trim();
+                category = customCategory ? customCategory.toUpperCase() : 'GENERAL';
+            }
+
+            // Get image URL (prioritize uploaded image)
+            let imageUrl = uploadedImageUrl || document.getElementById('image_url').value;
+
+            const formData = {
+                title: document.getElementById('title').value,
+                category: category,
+                image_url: imageUrl,
+                excerpt: document.getElementById('excerpt').value,
+                content: document.getElementById('content').value,
+                slug: document.getElementById('slug').value,
+                published: document.getElementById('published').checked
+            };
+
+            const submitBtn = document.getElementById('submit-btn');
+            const errorDiv = document.getElementById('form-error');
+            const originalText = submitBtn.innerHTML;
+
+            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving...';
+            submitBtn.disabled = true;
+            errorDiv.style.display = 'none';
+
+            try {
+                const { data, error } = await supabase
+                    .from('blogs')
+                    .update(formData)
+                    .eq('id', blogId)
+                    .select()
+                    .single();
+
+                if (error) throw error;
+
+                // Success - redirect to admin or show success message
+                alert('Blog post updated successfully!');
+                window.location.href = 'admin.html';
+            } catch (error) {
+                console.error('Error saving blog:', error);
+                errorDiv.textContent = error.message || 'Failed to save blog. Please try again.';
+                errorDiv.style.display = 'block';
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+
+        // Cancel button
+        document.getElementById('cancel-btn').addEventListener('click', () => {
+            if (confirm('Are you sure you want to cancel? Unsaved changes will be lost.')) {
+                window.location.href = 'admin.html';
+            }
+        });
+
+        // Auto-generate slug from title
+        document.getElementById('title').addEventListener('blur', () => {
+            const title = document.getElementById('title').value;
+            const slug = document.getElementById('slug');
+            if (title && !slug.value) {
+                slug.value = title.toLowerCase()
+                    .replace(/[^a-z0-9]+/g, '-')
+                    .replace(/(^-|-$)/g, '');
+            }
+        });
+
+        // Handle category custom input
+        document.getElementById('category').addEventListener('change', (e) => {
+            const customInput = document.getElementById('category-custom');
+            if (e.target.value === '__custom__') {
+                customInput.style.display = 'block';
+                customInput.required = true;
+            } else {
+                customInput.style.display = 'none';
+                customInput.required = false;
+                customInput.value = '';
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Post - Ashika Jain Yoga Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="blog-style.css">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Configuration -->
+    <script src="config.js"></script>
+</head>
+
+<body>
+
+    <div class="main-container">
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <div class="logo-circle">AJ</div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">HOME</a></li>
+                    <li><a href="about.html">ABOUT</a></li>
+                    <li><a href="classes.html">CLASSES</a></li>
+                    <li><a href="blog.html" class="active">BLOG</a></li>
+                    <li><a href="contact.html">CONTACT US</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <a href="contact.html#contact-form" class="book-btn">BOOK CLASS</a>
+                <div class="menu-icon" id="mobile-menu-toggle">
+                    <i class="fa-solid fa-bars"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- Mobile Menu Overlay -->
+        <div class="mobile-menu-overlay" id="mobile-menu">
+            <div class="mobile-menu-content">
+                <div class="mobile-menu-header">
+                    <div class="logo-circle">AJ</div>
+                    <button class="mobile-menu-close" id="mobile-menu-close">
+                        <i class="fa-solid fa-times"></i>
+                    </button>
+                </div>
+                <nav class="mobile-nav">
+                    <ul>
+                        <li><a href="index.html" class="mobile-nav-link">HOME</a></li>
+                        <li><a href="about.html" class="mobile-nav-link">ABOUT</a></li>
+                        <li><a href="classes.html" class="mobile-nav-link">CLASSES</a></li>
+                        <li><a href="blog.html" class="mobile-nav-link">BLOG</a></li>
+                        <li><a href="contact.html" class="mobile-nav-link">CONTACT US</a></li>
+                    </ul>
+                </nav>
+                <div class="mobile-menu-footer">
+                    <a href="contact.html#contact-form" class="mobile-book-btn">BOOK CLASS</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Blog Detail Content -->
+        <article class="blog-detail">
+            <!-- Loading state -->
+            <div id="blog-loading" class="blog-loading">
+                <i class="fa-solid fa-spinner fa-spin"></i>
+                <p>Loading blog post...</p>
+            </div>
+
+            <!-- Error state -->
+            <div id="blog-error" class="blog-error" style="display: none;">
+                <h2>Blog Post Not Found</h2>
+                <p>The blog post you're looking for doesn't exist or has been removed.</p>
+                <a href="blog.html" class="back-to-blog-btn">
+                    <i class="fa-solid fa-arrow-left"></i> Back to Blog
+                </a>
+            </div>
+
+            <!-- Blog Content (hidden until loaded) -->
+            <div id="blog-content" style="display: none;">
+                <!-- Back Button -->
+                <a href="blog.html" class="back-link">
+                    <i class="fa-solid fa-arrow-left"></i> Back to Blog
+                </a>
+
+                <!-- Admin Actions (only visible if logged in) -->
+                <div id="admin-actions" class="admin-actions" style="display: none;">
+                    <a href="#" id="edit-blog-btn" class="edit-btn">
+                        <i class="fa-solid fa-edit"></i> Edit Post
+                    </a>
+                </div>
+
+                <!-- Blog Header -->
+                <header class="blog-detail-header">
+                    <div class="blog-meta">
+                        <span class="blog-category" id="blog-category">CATEGORY</span>
+                        <span class="blog-date" id="blog-date">DATE</span>
+                    </div>
+                    <h1 class="blog-detail-title" id="blog-title">Blog Title</h1>
+                    <p class="blog-excerpt" id="blog-excerpt">Blog excerpt...</p>
+                </header>
+
+                <!-- Featured Image -->
+                <div class="blog-featured-image" id="blog-image-container" style="display: none;">
+                    <img id="blog-image" src="" alt="">
+                </div>
+
+                <!-- Blog Content -->
+                <div class="blog-detail-content" id="blog-detail-content">
+                    <!-- Content will be inserted here -->
+                </div>
+
+                <!-- Blog Footer -->
+                <footer class="blog-detail-footer">
+                    <div class="blog-tags">
+                        <span class="tag-label">Category:</span>
+                        <span class="tag" id="blog-category-tag">GENERAL</span>
+                    </div>
+                    <div class="blog-share">
+                        <span class="share-label">Share:</span>
+                        <a href="#" class="share-link" id="share-facebook" target="_blank">
+                            <i class="fa-brands fa-facebook"></i>
+                        </a>
+                        <a href="#" class="share-link" id="share-twitter" target="_blank">
+                            <i class="fa-brands fa-twitter"></i>
+                        </a>
+                        <a href="#" class="share-link" id="share-linkedin" target="_blank">
+                            <i class="fa-brands fa-linkedin"></i>
+                        </a>
+                    </div>
+                </footer>
+            </div>
+        </article>
+
+        <!-- Newsletter / Footer Area -->
+        <section class="newsletter">
+            <div class="newsletter-content">
+                <h2>SUBSCRIBE TO OUR NEWSLETTER</h2>
+                <p>Get the latest updates, articles, and class schedules delivered to your inbox.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Enter your email address">
+                    <button type="submit">SUBSCRIBE</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="about-footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="logo-circle">A</div>
+                    <p>Ashika Jain Yoga Studio</p>
+                </div>
+                <div class="footer-section">
+                    <h4>CONTACT</h4>
+                    <p>123 Wellness Street<br>Your City, ST 12345<br>contact@ashikajain.com</p>
+                </div>
+                <div class="footer-section">
+                    <h4>HOURS</h4>
+                    <p>Monday - Friday: 6am - 9pm<br>Saturday - Sunday: 8am - 6pm</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Supabase Configuration
+        const SUPABASE_URL = SUPABASE_CONFIG.url;
+        const SUPABASE_ANON_KEY = SUPABASE_CONFIG.anonKey;
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Get blog ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const blogId = urlParams.get('id');
+
+        // Function to format date
+        function formatDate(dateString) {
+            if (!dateString) return '';
+            const date = new Date(dateString);
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return date.toLocaleDateString('en-US', options).toUpperCase();
+        }
+
+        // Function to format content (convert line breaks to paragraphs)
+        function formatContent(content) {
+            if (!content) return '<p>No content available.</p>';
+            // Split by double line breaks and wrap in paragraphs
+            const paragraphs = content.split(/\n\n+/).filter(p => p.trim());
+            return paragraphs.map(p => `<p>${p.trim().replace(/\n/g, '<br>')}</p>`).join('');
+        }
+
+        // Load blog post
+        async function loadBlogPost() {
+            if (!blogId) {
+                showError();
+                return;
+            }
+
+            const loadingDiv = document.getElementById('blog-loading');
+            const errorDiv = document.getElementById('blog-error');
+            const contentDiv = document.getElementById('blog-content');
+
+            try {
+                const { data, error } = await supabase
+                    .from('blogs')
+                    .select('*')
+                    .eq('id', blogId)
+                    .eq('published', true)
+                    .single();
+
+                if (error || !data) {
+                    throw error || new Error('Blog post not found');
+                }
+
+                // Render blog post
+                renderBlogPost(data);
+
+                // Check if user is admin
+                const { data: { session } } = await supabase.auth.getSession();
+                if (session) {
+                    document.getElementById('admin-actions').style.display = 'block';
+                    document.getElementById('edit-blog-btn').href = `blog-edit.html?id=${blogId}`;
+                }
+
+                // Update share links
+                const currentUrl = window.location.href;
+                const encodedUrl = encodeURIComponent(currentUrl);
+                const encodedTitle = encodeURIComponent(data.title || '');
+                
+                document.getElementById('share-facebook').href = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
+                document.getElementById('share-twitter').href = `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`;
+                document.getElementById('share-linkedin').href = `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`;
+
+                // Update page title
+                document.title = `${data.title} - Ashika Jain Yoga Studio`;
+
+                loadingDiv.style.display = 'none';
+                contentDiv.style.display = 'block';
+            } catch (error) {
+                console.error('Error loading blog:', error);
+                loadingDiv.style.display = 'none';
+                showError();
+            }
+        }
+
+        // Render blog post
+        function renderBlogPost(blog) {
+            document.getElementById('blog-title').textContent = blog.title || 'Untitled';
+            document.getElementById('blog-excerpt').textContent = blog.excerpt || blog.description || '';
+            document.getElementById('blog-category').textContent = blog.category || 'GENERAL';
+            document.getElementById('blog-category-tag').textContent = blog.category || 'GENERAL';
+            document.getElementById('blog-date').textContent = formatDate(blog.created_at);
+
+            // Set image if available
+            if (blog.image_url || blog.image) {
+                const imgContainer = document.getElementById('blog-image-container');
+                const img = document.getElementById('blog-image');
+                img.src = blog.image_url || blog.image;
+                img.alt = blog.title || 'Blog Image';
+                img.onerror = function() {
+                    imgContainer.style.display = 'none';
+                };
+                imgContainer.style.display = 'block';
+            }
+
+            // Set content
+            const contentDiv = document.getElementById('blog-detail-content');
+            contentDiv.innerHTML = formatContent(blog.content || blog.excerpt || 'No content available.');
+        }
+
+        // Show error state
+        function showError() {
+            document.getElementById('blog-loading').style.display = 'none';
+            document.getElementById('blog-error').style.display = 'block';
+        }
+
+        // Mobile Menu Toggle
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuClose = document.getElementById('mobile-menu-close');
+        const body = document.body;
+
+        if (mobileMenuToggle) {
+            mobileMenuToggle.addEventListener('click', () => {
+                mobileMenu.classList.add('active');
+                body.classList.add('menu-open');
+            });
+        }
+
+        if (mobileMenuClose) {
+            mobileMenuClose.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                body.classList.remove('menu-open');
+            });
+        }
+
+        if (mobileMenu) {
+            mobileMenu.addEventListener('click', (e) => {
+                if (e.target === mobileMenu) {
+                    mobileMenu.classList.remove('active');
+                    body.classList.remove('menu-open');
+                }
+            });
+        }
+
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                body.classList.remove('menu-open');
+            });
+        });
+
+        // Load blog post on page load
+        loadBlogPost();
+    </script>
+
+</body>
+
+</html>

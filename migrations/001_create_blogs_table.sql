@@ -1,5 +1,8 @@
 -- Migration: Create blogs table and admin users table
 -- Run this in your Supabase SQL Editor
+-- 
+-- IMPORTANT: After running this migration, also run:
+-- migrations/002_create_storage_bucket.sql to set up image storage
 
 -- Create blogs table
 CREATE TABLE IF NOT EXISTS blogs (

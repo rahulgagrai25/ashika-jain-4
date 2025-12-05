@@ -172,7 +172,7 @@
                         <span class="date">${formattedDate}</span>
                         <h3>${blog.title || 'Untitled'}</h3>
                         <p>${blog.excerpt || blog.description || blog.content?.substring(0, 150) + '...' || 'No description available.'}</p>
-                        <a href="${blog.slug ? `blog-detail.html?id=${blog.id}` : '#'}" class="read-more">READ ARTICLE <i class="fa-solid fa-arrow-right-long"></i></a>
+                        <a href="blog-detail.html?id=${blog.id}" class="read-more">READ ARTICLE <i class="fa-solid fa-arrow-right-long"></i></a>
                     </div>
                 `;
 
