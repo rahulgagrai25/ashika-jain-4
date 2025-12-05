@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - Ashika Jain Yoga Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="admin-style.css">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Configuration -->
+    <script src="config.js"></script>
+</head>
+
+<body>
+    <div class="admin-login-container">
+        <div class="admin-login-box">
+            <div class="login-header">
+                <div class="logo-circle">AJ</div>
+                <h1>Admin <span class="highlight">Portal</span></h1>
+                <p>Sign in to manage your blog content</p>
+            </div>
+
+            <form id="login-form" class="login-form">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required autocomplete="email">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required autocomplete="current-password">
+                    <button type="button" class="toggle-password" id="toggle-password">
+                        <i class="fa-solid fa-eye"></i>
+                    </button>
+                </div>
+
+                <div id="login-error" class="error-message" style="display: none;"></div>
+
+                <button type="submit" class="login-btn">
+                    <span>Sign In</span>
+                    <i class="fa-solid fa-arrow-right-long"></i>
+                </button>
+            </form>
+
+            <div class="login-footer">
+                <a href="blog.html" class="back-link">
+                    <i class="fa-solid fa-arrow-left"></i> Back to Blog
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Supabase Configuration
+        const SUPABASE_URL = SUPABASE_CONFIG.url;
+        const SUPABASE_ANON_KEY = SUPABASE_CONFIG.anonKey;
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Check if already logged in
+        supabase.auth.getSession().then(({ data: { session } }) => {
+            if (session) {
+                window.location.href = 'admin.html';
+            }
+        });
+
+        // Toggle password visibility
+        const togglePassword = document.getElementById('toggle-password');
+        const passwordInput = document.getElementById('password');
+
+        togglePassword.addEventListener('click', () => {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            togglePassword.querySelector('i').classList.toggle('fa-eye');
+            togglePassword.querySelector('i').classList.toggle('fa-eye-slash');
+        });
+
+        // Handle login form submission
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorDiv = document.getElementById('login-error');
+            const submitBtn = document.querySelector('.login-btn');
+            const originalText = submitBtn.innerHTML;
+
+            // Show loading state
+            submitBtn.innerHTML = '<span>Signing in...</span><i class="fa-solid fa-spinner fa-spin"></i>';
+            submitBtn.disabled = true;
+            errorDiv.style.display = 'none';
+
+            try {
+                const { data, error } = await supabase.auth.signInWithPassword({
+                    email,
+                    password
+                });
+
+                if (error) {
+                    throw error;
+                }
+
+                // Check if user is admin (you can customize this check)
+                // For now, we'll allow any authenticated user
+                // You can add admin_users table check here if needed
+
+                // Redirect to admin dashboard
+                window.location.href = 'admin.html';
+            } catch (error) {
+                console.error('Login error:', error);
+                errorDiv.textContent = error.message || 'Invalid email or password. Please try again.';
+                errorDiv.style.display = 'block';
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+
+</html>

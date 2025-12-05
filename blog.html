@@ -14,6 +14,10 @@
     <link rel="stylesheet" href="blog-style.css">
     <!-- FontAwesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Configuration -->
+    <script src="config.js"></script>
 </head>
 
 <body>
@@ -72,95 +76,16 @@
         </section>
 
         <!-- Blog Grid -->
-        <section class="blog-grid">
-            <!-- Blog Post 1 -->
-            <article class="blog-card">
-                <div class="card-image">
-                    <img src="nature.png" alt="Mindfulness in Nature">
-                    <div class="category-tag">MINDFULNESS</div>
-                </div>
-                <div class="card-content">
-                    <span class="date">OCTOBER 12, 2023</span>
-                    <h3>Finding Peace in Nature</h3>
-                    <p>Discover how connecting with the natural world can deepen your yoga practice and bring
-                        tranquility to your mind.</p>
-                    <a href="#" class="read-more">READ ARTICLE <i class="fa-solid fa-arrow-right-long"></i></a>
-                </div>
-            </article>
-
-            <!-- Blog Post 2 -->
-            <article class="blog-card">
-                <div class="card-image">
-                    <img src="seated.png" alt="Yoga for Beginners">
-                    <div class="category-tag">PRACTICE</div>
-                </div>
-                <div class="card-content">
-                    <span class="date">OCTOBER 08, 2023</span>
-                    <h3>Yoga for Beginners</h3>
-                    <p>Starting your journey? Here are the essential poses and breathing techniques to build a strong
-                        foundation.</p>
-                    <a href="#" class="read-more">READ ARTICLE <i class="fa-solid fa-arrow-right-long"></i></a>
-                </div>
-            </article>
-
-            <!-- Blog Post 3 -->
-            <article class="blog-card">
-                <div class="card-image">
-                    <img src="hero.png" alt="The Art of Breathing">
-                    <div class="category-tag">BREATHWORK</div>
-                </div>
-                <div class="card-content">
-                    <span class="date">SEPTEMBER 25, 2023</span>
-                    <h3>The Art of Breathing</h3>
-                    <p>Pranayama is more than just breathing. Learn how to control your life force through conscious
-                        breath control.</p>
-                    <a href="#" class="read-more">READ ARTICLE <i class="fa-solid fa-arrow-right-long"></i></a>
-                </div>
-            </article>
-
-            <!-- Blog Post 4 -->
-            <article class="blog-card">
-                <div class="card-image">
-                    <img src="instructor.png" alt="Meet Our Instructors">
-                    <div class="category-tag">COMMUNITY</div>
-                </div>
-                <div class="card-content">
-                    <span class="date">SEPTEMBER 15, 2023</span>
-                    <h3>Community Spotlight</h3>
-                    <p>Meet the dedicated instructors who guide our community towards better health and spiritual
-                        growth.</p>
-                    <a href="#" class="read-more">READ ARTICLE <i class="fa-solid fa-arrow-right-long"></i></a>
-                </div>
-            </article>
-
-            <!-- Blog Post 5 -->
-            <article class="blog-card">
-                <div class="card-image">
-                    <img src="nature.png" alt="Healthy Eating">
-                    <div class="category-tag">NUTRITION</div>
-                </div>
-                <div class="card-content">
-                    <span class="date">SEPTEMBER 01, 2023</span>
-                    <h3>Nourish Your Body</h3>
-                    <p>Explore plant-based recipes that fuel your practice and keep you feeling energized throughout the
-                        day.</p>
-                    <a href="#" class="read-more">READ ARTICLE <i class="fa-solid fa-arrow-right-long"></i></a>
-                </div>
-            </article>
-
-            <!-- Blog Post 6 -->
-            <article class="blog-card">
-                <div class="card-image">
-                    <img src="seated.png" alt="Meditation Basics">
-                    <div class="category-tag">MEDITATION</div>
-                </div>
-                <div class="card-content">
-                    <span class="date">AUGUST 20, 2023</span>
-                    <h3>Meditation 101</h3>
-                    <p>Simple techniques to quiet the mind and establish a daily meditation habit that sticks.</p>
-                    <a href="#" class="read-more">READ ARTICLE <i class="fa-solid fa-arrow-right-long"></i></a>
-                </div>
-            </article>
+        <section class="blog-grid" id="blog-grid">
+            <!-- Loading state -->
+            <div id="blog-loading" style="text-align: center; padding: 3rem; grid-column: 1 / -1;">
+                <p style="font-size: 1.2rem; color: var(--secondary-text);">Loading blogs...</p>
+            </div>
+            <!-- Error state (hidden by default) -->
+            <div id="blog-error" style="display: none; text-align: center; padding: 3rem; grid-column: 1 / -1;">
+                <p style="font-size: 1.2rem; color: #d32f2f;">Failed to load blogs. Please try again later.</p>
+            </div>
+            <!-- Blog posts will be dynamically inserted here -->
         </section>
 
         <!-- Newsletter / Footer Area -->
@@ -195,6 +120,117 @@
     </div>
 
     <script>
+        // Supabase Configuration loaded from config.js
+        // Make sure to update config.js with your actual Supabase credentials
+        const SUPABASE_URL = SUPABASE_CONFIG.url;
+        const SUPABASE_ANON_KEY = SUPABASE_CONFIG.anonKey;
+
+        // Initialize Supabase client
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Function to format date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return date.toLocaleDateString('en-US', options).toUpperCase();
+        }
+
+        // Function to render blog posts
+        function renderBlogPosts(blogs) {
+            const blogGrid = document.getElementById('blog-grid');
+            const loadingDiv = document.getElementById('blog-loading');
+            const errorDiv = document.getElementById('blog-error');
+
+            // Hide loading and error states
+            if (loadingDiv) loadingDiv.style.display = 'none';
+            if (errorDiv) errorDiv.style.display = 'none';
+
+            if (!blogs || blogs.length === 0) {
+                blogGrid.innerHTML = '<div style="text-align: center; padding: 3rem; grid-column: 1 / -1;"><p style="font-size: 1.2rem; color: var(--secondary-text);">No blog posts found.</p></div>';
+                return;
+            }
+
+            // Clear existing content (except loading/error divs)
+            const existingPosts = blogGrid.querySelectorAll('.blog-card');
+            existingPosts.forEach(post => post.remove());
+
+            // Render each blog post
+            blogs.forEach(blog => {
+                const blogCard = document.createElement('article');
+                blogCard.className = 'blog-card';
+
+                // Format the date
+                const formattedDate = blog.created_at ? formatDate(blog.created_at) : (blog.date || '');
+                
+                // Build the blog card HTML
+                blogCard.innerHTML = `
+                    <div class="card-image">
+                        <img src="${blog.image_url || blog.image || 'nature.png'}" alt="${blog.title || 'Blog Post'}" onerror="this.src='nature.png'">
+                        <div class="category-tag">${blog.category || 'GENERAL'}</div>
+                    </div>
+                    <div class="card-content">
+                        <span class="date">${formattedDate}</span>
+                        <h3>${blog.title || 'Untitled'}</h3>
+                        <p>${blog.excerpt || blog.description || blog.content?.substring(0, 150) + '...' || 'No description available.'}</p>
+                        <a href="${blog.slug ? `blog-detail.html?id=${blog.id}` : '#'}" class="read-more">READ ARTICLE <i class="fa-solid fa-arrow-right-long"></i></a>
+                    </div>
+                `;
+
+                blogGrid.appendChild(blogCard);
+            });
+        }
+
+        // Function to fetch blogs from Supabase
+        async function fetchBlogs() {
+            const blogGrid = document.getElementById('blog-grid');
+            const loadingDiv = document.getElementById('blog-loading');
+            const errorDiv = document.getElementById('blog-error');
+
+            try {
+                // Show loading state
+                if (loadingDiv) loadingDiv.style.display = 'block';
+                if (errorDiv) errorDiv.style.display = 'none';
+
+                // Fetch blogs from Supabase
+                // Adjust the table name 'blogs' to match your Supabase table name
+                const { data, error } = await supabase
+                    .from('blogs')
+                    .select('*')
+                    .eq('published', true) // Only fetch published blogs
+                    .order('created_at', { ascending: false }); // Order by most recent first
+
+                if (error) {
+                    throw error;
+                }
+
+                // Render the blogs
+                renderBlogPosts(data);
+            } catch (error) {
+                console.error('Error fetching blogs:', error);
+                
+                // Show error state
+                if (loadingDiv) loadingDiv.style.display = 'none';
+                if (errorDiv) errorDiv.style.display = 'block';
+            }
+        }
+
+        // Fetch blogs when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check if Supabase is configured
+            if (SUPABASE_URL === 'YOUR_SUPABASE_URL' || SUPABASE_ANON_KEY === 'YOUR_SUPABASE_ANON_KEY') {
+                const errorDiv = document.getElementById('blog-error');
+                const loadingDiv = document.getElementById('blog-loading');
+                if (loadingDiv) loadingDiv.style.display = 'none';
+                if (errorDiv) {
+                    errorDiv.innerHTML = '<p style="font-size: 1.2rem; color: #d32f2f;">Please configure your Supabase credentials in the script section.</p>';
+                    errorDiv.style.display = 'block';
+                }
+                return;
+            }
+
+            fetchBlogs();
+        });
+
         // Mobile Menu Toggle
         const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
         const mobileMenu = document.getElementById('mobile-menu');
