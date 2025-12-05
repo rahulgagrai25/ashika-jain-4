@@ -52,6 +52,10 @@
                         <i class="fa-solid fa-plus-circle"></i>
                         <span>Add New Post</span>
                     </a>
+                    <a href="blog.html" class="nav-item" target="_blank">
+                        <i class="fa-solid fa-external-link-alt"></i>
+                        <span>View Blog</span>
+                    </a>
                 </nav>
             </aside>
 
@@ -78,7 +82,7 @@
                                     <th>Category</th>
                                     <th>Date</th>
                                     <th>Status</th>
-                                    <th>Actions</th>
+                                    <th style="min-width: 180px;">Actions</th>
                                 </tr>
                             </thead>
                             <tbody id="blogs-tbody">
@@ -201,6 +205,70 @@
         </div>
     </div>
 
+    <!-- Quick Edit Modal -->
+    <div id="quick-edit-modal" class="modal" style="display: none;">
+        <div class="modal-content" style="max-width: 700px; max-height: 90vh; overflow-y: auto;">
+            <div class="section-header" style="margin-bottom: 20px;">
+                <h3>Quick Edit Blog Post</h3>
+                <button class="btn-icon" id="close-quick-edit" style="background: transparent; border: none; font-size: 1.5rem; color: var(--secondary-text);">
+                    <i class="fa-solid fa-times"></i>
+                </button>
+            </div>
+            
+            <form id="quick-edit-form">
+                <input type="hidden" id="quick-edit-id" name="id">
+
+                <div class="form-group">
+                    <label for="quick-edit-title">Title *</label>
+                    <input type="text" id="quick-edit-title" name="title" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="quick-edit-category">Category</label>
+                        <div class="category-input-wrapper">
+                            <select id="quick-edit-category" name="category">
+                                <option value="">Select or enter custom category</option>
+                                <option value="GENERAL">GENERAL</option>
+                                <option value="MINDFULNESS">MINDFULNESS</option>
+                                <option value="PRACTICE">PRACTICE</option>
+                                <option value="BREATHWORK">BREATHWORK</option>
+                                <option value="COMMUNITY">COMMUNITY</option>
+                                <option value="NUTRITION">NUTRITION</option>
+                                <option value="MEDITATION">MEDITATION</option>
+                                <option value="__custom__">+ Add New Category</option>
+                            </select>
+                            <input type="text" id="quick-edit-category-custom" name="category-custom" placeholder="Enter custom category" style="display: none; margin-top: 10px;">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="quick-edit-published" name="published">
+                            <span>Published</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="quick-edit-excerpt">Excerpt</label>
+                    <textarea id="quick-edit-excerpt" name="excerpt" rows="3"></textarea>
+                </div>
+
+                <div id="quick-edit-error" class="error-message" style="display: none;"></div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary" id="quick-edit-submit">
+                        <i class="fa-solid fa-save"></i> Save Changes
+                    </button>
+                    <button type="button" class="btn-secondary" id="quick-edit-cancel">Cancel</button>
+                    <a href="#" id="quick-edit-full" class="btn-secondary">
+                        <i class="fa-solid fa-expand"></i> Full Edit
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script>
         // Supabase Configuration
         const SUPABASE_URL = SUPABASE_CONFIG.url;
@@ -280,18 +348,35 @@
             table.style.display = 'none';
 
             try {
+                // Fetch all blogs (published and unpublished) for admin
+                // Authenticated users should be able to see all blogs
+                // No published filter - admins need to see everything
                 const { data, error } = await supabase
                     .from('blogs')
                     .select('*')
                     .order('created_at', { ascending: false });
 
-                if (error) throw error;
+                if (error) {
+                    console.error('Supabase error:', error);
+                    throw error;
+                }
 
                 blogs = data || [];
+                
+                if (blogs.length === 0) {
+                    console.log('No blogs found');
+                } else {
+                    console.log(`Loaded ${blogs.length} blog(s)`);
+                }
+                
                 renderBlogsTable();
             } catch (error) {
                 console.error('Error loading blogs:', error);
-                errorDiv.textContent = 'Failed to load blogs. Please try again.';
+                errorDiv.innerHTML = `
+                    <p><strong>Failed to load blogs.</strong></p>
+                    <p style="font-size: 0.85rem; margin-top: 10px;">Error: ${error.message || 'Unknown error'}</p>
+                    <p style="font-size: 0.85rem; margin-top: 5px;">Make sure you're logged in and have the correct permissions. You may need to run migration 003_fix_admin_read_policy.sql</p>
+                `;
                 errorDiv.style.display = 'block';
             } finally {
                 loadingDiv.style.display = 'none';
@@ -317,12 +402,20 @@
                             </span>
                         </td>
                         <td>
-                            <button class="btn-icon edit-btn" data-id="${blog.id}" title="Edit">
-                                <i class="fa-solid fa-edit"></i>
-                            </button>
-                            <button class="btn-icon delete-btn" data-id="${blog.id}" title="Delete">
-                                <i class="fa-solid fa-trash"></i>
-                            </button>
+                            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                                <button class="btn-icon edit-btn" data-id="${blog.id}" title="Full Edit">
+                                    <i class="fa-solid fa-edit"></i>
+                                </button>
+                                <button class="btn-icon quick-edit-btn" data-id="${blog.id}" title="Quick Edit" style="color: #2196F3;">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </button>
+                                <a href="blog-detail.html?id=${blog.id}" class="btn-icon" title="View Post" target="_blank" style="text-decoration: none; color: var(--secondary-text);">
+                                    <i class="fa-solid fa-eye"></i>
+                                </a>
+                                <button class="btn-icon delete-btn" data-id="${blog.id}" title="Delete">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </div>
                         </td>
                     </tr>
                 `).join('');
@@ -330,6 +423,10 @@
                 // Add event listeners
                 document.querySelectorAll('.edit-btn').forEach(btn => {
                     btn.addEventListener('click', () => editBlog(btn.getAttribute('data-id')));
+                });
+
+                document.querySelectorAll('.quick-edit-btn').forEach(btn => {
+                    btn.addEventListener('click', () => quickEditBlog(btn.getAttribute('data-id')));
                 });
 
                 document.querySelectorAll('.delete-btn').forEach(btn => {
@@ -347,52 +444,76 @@
             return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
         }
 
-        // Edit blog
-        function editBlog(id) {
-            const blog = blogs.find(b => b.id === id);
-            if (!blog) return;
-
+        // Edit blog - Fetch fresh data from Supabase
+        async function editBlog(id) {
             currentBlogId = id;
-            document.getElementById('blog-id').value = blog.id;
-            document.getElementById('title').value = blog.title || '';
             
-            // Handle category (check if it's a custom category)
-            const categorySelect = document.getElementById('category');
-            const customCategoryInput = document.getElementById('category-custom');
-            const existingCategory = blog.category || 'GENERAL';
-            
-            // Check if category exists in select options
-            const categoryOption = Array.from(categorySelect.options).find(opt => opt.value === existingCategory);
-            if (categoryOption) {
-                categorySelect.value = existingCategory;
-                customCategoryInput.style.display = 'none';
-            } else {
-                categorySelect.value = '__custom__';
-                customCategoryInput.value = existingCategory;
-                customCategoryInput.style.display = 'block';
+            // Show loading state
+            const submitBtn = document.getElementById('submit-btn');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Loading...';
+            submitBtn.disabled = true;
+
+            try {
+                // Fetch the blog directly from Supabase to ensure we get the latest data
+                const { data: blog, error } = await supabase
+                    .from('blogs')
+                    .select('*')
+                    .eq('id', id)
+                    .single();
+
+                if (error || !blog) {
+                    throw error || new Error('Blog post not found');
+                }
+
+                // Populate form with fetched data
+                document.getElementById('blog-id').value = blog.id;
+                document.getElementById('title').value = blog.title || '';
+                
+                // Handle category (check if it's a custom category)
+                const categorySelect = document.getElementById('category');
+                const customCategoryInput = document.getElementById('category-custom');
+                const existingCategory = blog.category || 'GENERAL';
+                
+                // Check if category exists in select options
+                const categoryOption = Array.from(categorySelect.options).find(opt => opt.value === existingCategory);
+                if (categoryOption) {
+                    categorySelect.value = existingCategory;
+                    customCategoryInput.style.display = 'none';
+                } else {
+                    categorySelect.value = '__custom__';
+                    customCategoryInput.value = existingCategory;
+                    customCategoryInput.style.display = 'block';
+                }
+
+                // Set image preview if image exists
+                const imageUrl = blog.image_url || blog.image || '';
+                if (imageUrl) {
+                    document.getElementById('image_url').value = imageUrl;
+                    previewImage.src = imageUrl;
+                    uploadPlaceholder.style.display = 'none';
+                    imagePreview.style.display = 'block';
+                    uploadedImageUrl = imageUrl;
+                } else {
+                    uploadPlaceholder.style.display = 'block';
+                    imagePreview.style.display = 'none';
+                    uploadedImageUrl = null;
+                }
+
+                document.getElementById('excerpt').value = blog.excerpt || '';
+                document.getElementById('content').value = blog.content || '';
+                document.getElementById('slug').value = blog.slug || '';
+                document.getElementById('published').checked = blog.published !== false;
+
+                document.getElementById('form-title').textContent = 'Edit Blog Post';
+                showSection('add-blog');
+            } catch (error) {
+                console.error('Error loading blog for edit:', error);
+                alert('Failed to load blog post. Please try again.');
+            } finally {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
             }
-
-            // Set image preview if image exists
-            const imageUrl = blog.image_url || blog.image || '';
-            if (imageUrl) {
-                document.getElementById('image_url').value = imageUrl;
-                previewImage.src = imageUrl;
-                uploadPlaceholder.style.display = 'none';
-                imagePreview.style.display = 'block';
-                uploadedImageUrl = imageUrl;
-            } else {
-                uploadPlaceholder.style.display = 'block';
-                imagePreview.style.display = 'none';
-                uploadedImageUrl = null;
-            }
-
-            document.getElementById('excerpt').value = blog.excerpt || '';
-            document.getElementById('content').value = blog.content || '';
-            document.getElementById('slug').value = blog.slug || '';
-            document.getElementById('published').checked = blog.published !== false;
-
-            document.getElementById('form-title').textContent = 'Edit Blog Post';
-            showSection('add-blog');
         }
 
         // Reset form
@@ -499,8 +620,20 @@
 
                 if (result.error) throw result.error;
 
-                // Success - go back to list
+                // Success - show success message and reload
+                const successMsg = document.createElement('div');
+                successMsg.className = 'success-message';
+                successMsg.style.cssText = 'background: #e8f5e9; color: #2e7d32; padding: 15px; border-radius: 4px; margin-bottom: 20px; border: 1px solid #c8e6c9; position: fixed; top: 100px; right: 40px; z-index: 1000; min-width: 300px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);';
+                successMsg.innerHTML = '<i class="fa-solid fa-check-circle"></i> Blog post saved successfully!';
+                document.body.appendChild(successMsg);
+                
+                setTimeout(() => {
+                    successMsg.remove();
+                }, 3000);
+
+                // Go back to list and reload
                 showSection('blogs');
+                loadBlogs();
             } catch (error) {
                 console.error('Error saving blog:', error);
                 errorDiv.textContent = error.message || 'Failed to save blog. Please try again.';
@@ -667,6 +800,147 @@
                 customInput.style.display = 'none';
                 customInput.required = false;
                 customInput.value = '';
+            }
+        });
+
+        // Quick Edit Functionality - Fetch fresh data from Supabase
+        async function quickEditBlog(id) {
+            // Show loading in modal
+            const modal = document.getElementById('quick-edit-modal');
+            modal.style.display = 'flex';
+            const submitBtn = document.getElementById('quick-edit-submit');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Loading...';
+            submitBtn.disabled = true;
+
+            try {
+                // Fetch the blog directly from Supabase to ensure we get the latest data
+                const { data: blog, error } = await supabase
+                    .from('blogs')
+                    .select('*')
+                    .eq('id', id)
+                    .single();
+
+                if (error || !blog) {
+                    throw error || new Error('Blog post not found');
+                }
+
+                // Populate quick edit form
+                document.getElementById('quick-edit-id').value = blog.id;
+                document.getElementById('quick-edit-title').value = blog.title || '';
+                
+                // Handle category
+                const categorySelect = document.getElementById('quick-edit-category');
+                const customCategoryInput = document.getElementById('quick-edit-category-custom');
+                const existingCategory = blog.category || 'GENERAL';
+                
+                const categoryOption = Array.from(categorySelect.options).find(opt => opt.value === existingCategory);
+                if (categoryOption) {
+                    categorySelect.value = existingCategory;
+                    customCategoryInput.style.display = 'none';
+                } else {
+                    categorySelect.value = '__custom__';
+                    customCategoryInput.value = existingCategory;
+                    customCategoryInput.style.display = 'block';
+                }
+
+                document.getElementById('quick-edit-excerpt').value = blog.excerpt || '';
+                document.getElementById('quick-edit-published').checked = blog.published !== false;
+                document.getElementById('quick-edit-full').href = `blog-edit.html?id=${blog.id}`;
+            } catch (error) {
+                console.error('Error loading blog for quick edit:', error);
+                alert('Failed to load blog post. Please try again.');
+                modal.style.display = 'none';
+            } finally {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        }
+
+        // Close quick edit modal
+        document.getElementById('close-quick-edit').addEventListener('click', () => {
+            document.getElementById('quick-edit-modal').style.display = 'none';
+        });
+
+        document.getElementById('quick-edit-cancel').addEventListener('click', () => {
+            document.getElementById('quick-edit-modal').style.display = 'none';
+        });
+
+        // Handle quick edit category custom input
+        document.getElementById('quick-edit-category').addEventListener('change', (e) => {
+            const customInput = document.getElementById('quick-edit-category-custom');
+            if (e.target.value === '__custom__') {
+                customInput.style.display = 'block';
+                customInput.required = true;
+            } else {
+                customInput.style.display = 'none';
+                customInput.required = false;
+                customInput.value = '';
+            }
+        });
+
+        // Handle quick edit form submission
+        document.getElementById('quick-edit-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Get category (handle custom category)
+            let category = document.getElementById('quick-edit-category').value;
+            if (category === '__custom__') {
+                const customCategory = document.getElementById('quick-edit-category-custom').value.trim();
+                category = customCategory ? customCategory.toUpperCase() : 'GENERAL';
+            }
+
+            const formData = {
+                title: document.getElementById('quick-edit-title').value,
+                category: category,
+                excerpt: document.getElementById('quick-edit-excerpt').value,
+                published: document.getElementById('quick-edit-published').checked
+            };
+
+            const submitBtn = document.getElementById('quick-edit-submit');
+            const errorDiv = document.getElementById('quick-edit-error');
+            const originalText = submitBtn.innerHTML;
+            const blogId = document.getElementById('quick-edit-id').value;
+
+            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving...';
+            submitBtn.disabled = true;
+            errorDiv.style.display = 'none';
+
+            try {
+                const { error } = await supabase
+                    .from('blogs')
+                    .update(formData)
+                    .eq('id', blogId);
+
+                if (error) throw error;
+
+                // Success - show success message
+                const successMsg = document.createElement('div');
+                successMsg.className = 'success-message';
+                successMsg.style.cssText = 'background: #e8f5e9; color: #2e7d32; padding: 15px; border-radius: 4px; margin-bottom: 20px; border: 1px solid #c8e6c9; position: fixed; top: 100px; right: 40px; z-index: 1000; min-width: 300px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);';
+                successMsg.innerHTML = '<i class="fa-solid fa-check-circle"></i> Blog post updated successfully!';
+                document.body.appendChild(successMsg);
+                
+                setTimeout(() => {
+                    successMsg.remove();
+                }, 3000);
+
+                // Close modal and reload blogs
+                document.getElementById('quick-edit-modal').style.display = 'none';
+                loadBlogs();
+            } catch (error) {
+                console.error('Error updating blog:', error);
+                errorDiv.textContent = error.message || 'Failed to update blog. Please try again.';
+                errorDiv.style.display = 'block';
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+
+        // Close modal when clicking outside
+        document.getElementById('quick-edit-modal').addEventListener('click', (e) => {
+            if (e.target.id === 'quick-edit-modal') {
+                document.getElementById('quick-edit-modal').style.display = 'none';
             }
         });
 

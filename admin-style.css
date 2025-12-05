@@ -151,6 +151,23 @@
     border: 1px solid #fcc;
 }
 
+.success-message {
+    background: #e8f5e9;
+    color: #2e7d32;
+    padding: 12px 15px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+    border: 1px solid #c8e6c9;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.success-message i {
+    font-size: 1.1rem;
+}
+
 .login-footer {
     text-align: center;
     padding-top: 20px;
@@ -713,6 +730,36 @@
 
 .category-input-wrapper input {
     width: 100%;
+}
+
+/* Quick Edit Modal Styles */
+#quick-edit-modal .modal-content {
+    max-width: 700px;
+}
+
+#quick-edit-modal .section-header {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+}
+
+#quick-edit-modal .section-header h3 {
+    font-size: 1.8rem;
+    margin: 0;
+}
+
+#quick-edit-modal #close-quick-edit {
+    margin-left: auto;
+    padding: 5px;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#quick-edit-modal #close-quick-edit:hover {
+    background: #f9f9f9;
+    border-radius: 4px;
 }
 
 /* Responsive */

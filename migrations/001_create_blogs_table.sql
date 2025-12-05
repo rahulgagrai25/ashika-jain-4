@@ -47,6 +47,12 @@ CREATE POLICY "Allow public read access to published blogs"
     ON blogs FOR SELECT
     USING (published = true);
 
+-- Create policy to allow authenticated users to read all blogs (for admin)
+CREATE POLICY "Allow authenticated users to read all blogs"
+    ON blogs FOR SELECT
+    TO authenticated
+    USING (true);
+
 -- Create policy to allow authenticated users to insert blogs (for admin)
 CREATE POLICY "Allow authenticated users to insert blogs"
     ON blogs FOR INSERT

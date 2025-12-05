@@ -202,15 +202,29 @@
             const formContainer = document.getElementById('edit-form-container');
 
             try {
+                // Fetch blog by ID - authenticated users should be able to read all blogs
+                // No published filter - admins can edit both published and unpublished blogs
                 const { data, error } = await supabase
                     .from('blogs')
                     .select('*')
                     .eq('id', blogId)
                     .single();
 
-                if (error || !data) {
-                    throw error || new Error('Blog post not found');
+                if (error) {
+                    console.error('Supabase error details:', error);
+                    if (error.code === 'PGRST116') {
+                        throw new Error('Blog post not found. It may have been deleted or you may not have permission to view it.');
+                    } else if (error.message && error.message.includes('permission')) {
+                        throw new Error('Permission denied. Make sure you are logged in as an admin and the RLS policy allows authenticated users to read blogs.');
+                    }
+                    throw error;
                 }
+
+                if (!data) {
+                    throw new Error('Blog post not found. Please check the blog ID.');
+                }
+
+                console.log('Blog data loaded successfully:', data);
 
                 // Populate form
                 document.getElementById('blog-id').value = data.id;
@@ -446,9 +460,16 @@
 
                 if (error) throw error;
 
-                // Success - redirect to admin or show success message
-                alert('Blog post updated successfully!');
-                window.location.href = 'admin.html';
+                // Success - show success message and redirect
+                const successMsg = document.createElement('div');
+                successMsg.className = 'success-message';
+                successMsg.style.cssText = 'background: #e8f5e9; color: #2e7d32; padding: 15px; border-radius: 4px; margin-bottom: 20px; border: 1px solid #c8e6c9;';
+                successMsg.innerHTML = '<i class="fa-solid fa-check-circle"></i> Blog post updated successfully! Redirecting...';
+                document.getElementById('blog-edit-form').insertBefore(successMsg, document.getElementById('blog-edit-form').firstChild);
+                
+                setTimeout(() => {
+                    window.location.href = 'admin.html';
+                }, 1500);
             } catch (error) {
                 console.error('Error saving blog:', error);
                 errorDiv.textContent = error.message || 'Failed to save blog. Please try again.';
