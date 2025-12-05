@@ -110,19 +110,43 @@
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="category">Category</label>
-                                <select id="category" name="category">
-                                    <option value="GENERAL">GENERAL</option>
-                                    <option value="MINDFULNESS">MINDFULNESS</option>
-                                    <option value="PRACTICE">PRACTICE</option>
-                                    <option value="BREATHWORK">BREATHWORK</option>
-                                    <option value="COMMUNITY">COMMUNITY</option>
-                                    <option value="NUTRITION">NUTRITION</option>
-                                    <option value="MEDITATION">MEDITATION</option>
-                                </select>
+                                <div class="category-input-wrapper">
+                                    <select id="category" name="category">
+                                        <option value="">Select or enter custom category</option>
+                                        <option value="GENERAL">GENERAL</option>
+                                        <option value="MINDFULNESS">MINDFULNESS</option>
+                                        <option value="PRACTICE">PRACTICE</option>
+                                        <option value="BREATHWORK">BREATHWORK</option>
+                                        <option value="COMMUNITY">COMMUNITY</option>
+                                        <option value="NUTRITION">NUTRITION</option>
+                                        <option value="MEDITATION">MEDITATION</option>
+                                        <option value="__custom__">+ Add New Category</option>
+                                    </select>
+                                    <input type="text" id="category-custom" name="category-custom" placeholder="Enter custom category" style="display: none; margin-top: 10px;">
+                                </div>
                             </div>
                             <div class="form-group">
-                                <label for="image_url">Image URL</label>
-                                <input type="text" id="image_url" name="image_url" placeholder="e.g., nature.png">
+                                <label for="image_upload">Blog Image</label>
+                                <div class="image-upload-wrapper">
+                                    <div class="image-upload-area" id="image-upload-area">
+                                        <input type="file" id="image_upload" name="image_upload" accept="image/*" style="display: none;">
+                                        <div class="upload-placeholder" id="upload-placeholder">
+                                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                                            <p>Click to upload or drag and drop</p>
+                                            <span>PNG, JPG, GIF up to 5MB</span>
+                                        </div>
+                                        <div class="image-preview" id="image-preview" style="display: none;">
+                                            <img id="preview-image" src="" alt="Preview">
+                                            <button type="button" class="remove-image-btn" id="remove-image-btn">
+                                                <i class="fa-solid fa-times"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="image-url-fallback">
+                                        <label for="image_url" style="font-size: 0.7rem; color: var(--secondary-text); margin-top: 10px; display: block;">Or enter image URL:</label>
+                                        <input type="text" id="image_url" name="image_url" placeholder="e.g., https://example.com/image.png" style="margin-top: 5px;">
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -331,8 +355,37 @@
             currentBlogId = id;
             document.getElementById('blog-id').value = blog.id;
             document.getElementById('title').value = blog.title || '';
-            document.getElementById('category').value = blog.category || 'GENERAL';
-            document.getElementById('image_url').value = blog.image_url || blog.image || '';
+            
+            // Handle category (check if it's a custom category)
+            const categorySelect = document.getElementById('category');
+            const customCategoryInput = document.getElementById('category-custom');
+            const existingCategory = blog.category || 'GENERAL';
+            
+            // Check if category exists in select options
+            const categoryOption = Array.from(categorySelect.options).find(opt => opt.value === existingCategory);
+            if (categoryOption) {
+                categorySelect.value = existingCategory;
+                customCategoryInput.style.display = 'none';
+            } else {
+                categorySelect.value = '__custom__';
+                customCategoryInput.value = existingCategory;
+                customCategoryInput.style.display = 'block';
+            }
+
+            // Set image preview if image exists
+            const imageUrl = blog.image_url || blog.image || '';
+            if (imageUrl) {
+                document.getElementById('image_url').value = imageUrl;
+                previewImage.src = imageUrl;
+                uploadPlaceholder.style.display = 'none';
+                imagePreview.style.display = 'block';
+                uploadedImageUrl = imageUrl;
+            } else {
+                uploadPlaceholder.style.display = 'block';
+                imagePreview.style.display = 'none';
+                uploadedImageUrl = null;
+            }
+
             document.getElementById('excerpt').value = blog.excerpt || '';
             document.getElementById('content').value = blog.content || '';
             document.getElementById('slug').value = blog.slug || '';
@@ -345,11 +398,23 @@
         // Reset form
         function resetForm() {
             currentBlogId = null;
+            uploadedImageUrl = null;
             document.getElementById('blog-form').reset();
             document.getElementById('blog-id').value = '';
             document.getElementById('published').checked = true;
             document.getElementById('form-title').textContent = 'Add New Blog Post';
             document.getElementById('form-error').style.display = 'none';
+            
+            // Reset image preview
+            uploadPlaceholder.style.display = 'block';
+            imagePreview.style.display = 'none';
+            previewImage.src = '';
+            document.getElementById('image_url').value = '';
+            
+            // Reset category
+            document.getElementById('category').value = '';
+            document.getElementById('category-custom').style.display = 'none';
+            document.getElementById('category-custom').value = '';
         }
 
         // Confirm delete
@@ -389,10 +454,20 @@
         document.getElementById('blog-form').addEventListener('submit', async (e) => {
             e.preventDefault();
 
+            // Get category (handle custom category)
+            let category = document.getElementById('category').value;
+            if (category === '__custom__') {
+                const customCategory = document.getElementById('category-custom').value.trim();
+                category = customCategory ? customCategory.toUpperCase() : 'GENERAL';
+            }
+
+            // Get image URL (prioritize uploaded image)
+            let imageUrl = uploadedImageUrl || document.getElementById('image_url').value;
+
             const formData = {
                 title: document.getElementById('title').value,
-                category: document.getElementById('category').value,
-                image_url: document.getElementById('image_url').value,
+                category: category,
+                image_url: imageUrl,
                 excerpt: document.getElementById('excerpt').value,
                 content: document.getElementById('content').value,
                 slug: document.getElementById('slug').value,
@@ -443,6 +518,155 @@
                 slug.value = title.toLowerCase()
                     .replace(/[^a-z0-9]+/g, '-')
                     .replace(/(^-|-$)/g, '');
+            }
+        });
+
+        // Image Upload Functionality
+        const imageUpload = document.getElementById('image_upload');
+        const imageUploadArea = document.getElementById('image-upload-area');
+        const uploadPlaceholder = document.getElementById('upload-placeholder');
+        const imagePreview = document.getElementById('image-preview');
+        const previewImage = document.getElementById('preview-image');
+        const removeImageBtn = document.getElementById('remove-image-btn');
+        let uploadedImageUrl = null;
+
+        // Click to upload
+        imageUploadArea.addEventListener('click', () => {
+            if (!imagePreview.style.display || imagePreview.style.display === 'none') {
+                imageUpload.click();
+            }
+        });
+
+        // File input change
+        imageUpload.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            // Validate file type
+            if (!file.type.startsWith('image/')) {
+                alert('Please select an image file');
+                return;
+            }
+
+            // Validate file size (5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                alert('Image size must be less than 5MB');
+                return;
+            }
+
+            // Show preview
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                previewImage.src = e.target.result;
+                uploadPlaceholder.style.display = 'none';
+                imagePreview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+
+            // Upload to Supabase
+            await uploadImageToSupabase(file);
+        });
+
+        // Drag and drop
+        imageUploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            imageUploadArea.classList.add('drag-over');
+        });
+
+        imageUploadArea.addEventListener('dragleave', () => {
+            imageUploadArea.classList.remove('drag-over');
+        });
+
+        imageUploadArea.addEventListener('drop', async (e) => {
+            e.preventDefault();
+            imageUploadArea.classList.remove('drag-over');
+
+            const file = e.dataTransfer.files[0];
+            if (!file || !file.type.startsWith('image/')) {
+                alert('Please drop an image file');
+                return;
+            }
+
+            if (file.size > 5 * 1024 * 1024) {
+                alert('Image size must be less than 5MB');
+                return;
+            }
+
+            // Show preview
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                previewImage.src = e.target.result;
+                uploadPlaceholder.style.display = 'none';
+                imagePreview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+
+            // Upload to Supabase
+            await uploadImageToSupabase(file);
+        });
+
+        // Remove image
+        removeImageBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            uploadedImageUrl = null;
+            imageUpload.value = '';
+            imagePreview.style.display = 'none';
+            uploadPlaceholder.style.display = 'block';
+            document.getElementById('image_url').value = '';
+        });
+
+        // Upload image to Supabase Storage
+        async function uploadImageToSupabase(file) {
+            const submitBtn = document.getElementById('submit-btn');
+            const originalText = submitBtn.innerHTML;
+
+            try {
+                submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Uploading image...';
+                submitBtn.disabled = true;
+
+                // Generate unique filename
+                const fileExt = file.name.split('.').pop();
+                const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 15)}.${fileExt}`;
+                const filePath = `blog-images/${fileName}`;
+
+                // Upload to Supabase Storage
+                const { data, error } = await supabase.storage
+                    .from('blog-images')
+                    .upload(filePath, file, {
+                        cacheControl: '3600',
+                        upsert: false
+                    });
+
+                if (error) throw error;
+
+                // Get public URL
+                const { data: urlData } = supabase.storage
+                    .from('blog-images')
+                    .getPublicUrl(filePath);
+
+                uploadedImageUrl = urlData.publicUrl;
+                document.getElementById('image_url').value = uploadedImageUrl;
+
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            } catch (error) {
+                console.error('Error uploading image:', error);
+                alert('Failed to upload image. Please try again or use image URL instead.');
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        }
+
+        // Handle category custom input
+        document.getElementById('category').addEventListener('change', (e) => {
+            const customInput = document.getElementById('category-custom');
+            if (e.target.value === '__custom__') {
+                customInput.style.display = 'block';
+                customInput.required = true;
+            } else {
+                customInput.style.display = 'none';
+                customInput.required = false;
+                customInput.value = '';
             }
         });
 
