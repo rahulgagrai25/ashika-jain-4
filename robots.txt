@@ -1,0 +1,24 @@
+# robots.txt for Ashika Jain Yoga Studio
+
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /admin-login.html
+Disallow: /blog-edit.html
+Disallow: /config.js
+
+# Allow all search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+# Sitemap location
+Sitemap: https://www.ashikajain.com/sitemap.xml
+
+# Crawl-delay (optional - adjust if needed)
+# Crawl-delay: 1
